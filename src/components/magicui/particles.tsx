@@ -305,6 +305,7 @@ export const Particles: React.FC<ParticlesProps> = ({
       className={cn("pointer-events-none", className)}
       ref={canvasContainerRef}
       aria-hidden="true"
+      style={{ backgroundColor: "rgba(1, 6, 18, 0.97)" }}
       {...props}
     >
       <canvas ref={canvasRef} className="size-full" />
