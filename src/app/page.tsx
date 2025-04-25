@@ -2,6 +2,7 @@
 "use client";
 
 import { Particles } from "@/components/magicui/particles";
+import AboutSection from "@/components/ui/AboutSection";
 import HeroSection from "@/components/ui/HeroSection";
 import Navbar from "@/components/ui/Navbar";
 
@@ -24,6 +25,8 @@ export default function Home() {
 
       {/* Hero Section Component */}
       <HeroSection />
+
+      <AboutSection />
     </div>
   );
 }

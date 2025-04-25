@@ -20,9 +20,16 @@ const config: Config = {
           accent: "#3b82f6", // blue-500
         },
       },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      },
       animation: {
         "cosmic-pulse": "cosmic-pulse 4s ease-in-out infinite",
         "float": "float 6s ease-in-out infinite",
+        'marquee-slow': 'marquee-slow 30s linear infinite',
+        'marquee-fast': 'marquee-fast 20s linear infinite',
+        'marquee-fast-reverse': 'marquee-fast 20s linear infinite reverse',
       },
       keyframes: {
         "cosmic-pulse": {
@@ -32,6 +39,14 @@ const config: Config = {
         "float": {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-20px)" },
+        },
+        'marquee-slow': {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+        'marquee-fast': {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
         },
       },
       boxShadow: {

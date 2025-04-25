@@ -9,8 +9,8 @@ import { SiInstagram, SiDiscord, SiX } from "react-icons/si";
 import { RiMenu4Line, RiCloseLine } from "react-icons/ri";
 
 const navItems = [
+  { name: "Home", path: "/#" },
   { name: "About me", path: "/#about" },
-  { name: "Skills", path: "/#skills" },
   { name: "Projects", path: "/#projects" },
   { name: "Contact", path: "/#contact" },
 ];
@@ -22,11 +22,12 @@ const socialLinks = [
 ];
 
 // Animation variants
+// Update the navbarVariants
 const navbarVariants = {
-  hidden: { opacity: 0, y: -25 },
+  hidden: { opacity: 0, transform: 'translateY(-10px)' },
   visible: { 
     opacity: 1, 
-    y: 0, 
+    transform: 'translateY(0px)', 
     transition: { 
       duration: 0.6, 
       ease: "easeOut" 
@@ -35,27 +36,26 @@ const navbarVariants = {
 };
 
 const linkVariants = {
-  hidden: { opacity: 0, y: -10 },
+  hidden: { opacity: 0, y: -5 },  // Smaller initial offset
   visible: (custom: number) => ({
     opacity: 1,
     y: 0,
     transition: {
-      delay: 0.1 + custom * 0.1,
-      duration: 0.5,
+      delay: 0.3 + custom * 0.05,  // Reduce delay between items
+      duration: 0.4,
       ease: "easeOut"
     }
   })
 };
-
 const mobileMenuVariants = {
   closed: { 
     opacity: 0, 
     height: 0,
     transition: {
-      duration: 0.3,
+      duration: 0.4,
       ease: "easeInOut",
       when: "afterChildren",
-      staggerChildren: 0.05,
+      staggerChildren: 0.03,  // Faster stagger
       staggerDirection: -1
     } 
   },
@@ -63,30 +63,34 @@ const mobileMenuVariants = {
     opacity: 1, 
     height: "auto",
     transition: {
-      duration: 0.4,
+      duration: 0.5,
       ease: "easeInOut",
       when: "beforeChildren",
-      staggerChildren: 0.1,
+      staggerChildren: 0.05,  // Faster stagger
       delayChildren: 0.1
     } 
   }
 };
 
 const menuItemVariants = {
-  closed: { opacity: 0, x: -20 },
-  open: { opacity: 1, x: 0 }
+  closed: { opacity: 0, x: -10 },  // Less dramatic slide
+  open: { 
+    opacity: 1, 
+    x: 0,
+    transition: { ease: "easeOut", duration: 0.3 }  // Add explicit transition
+  }
 };
 
+
 const socialIconVariants = {
-  hidden: { opacity: 0, scale: 0.8 },
+  hidden: { opacity: 0, scale: 0.95 },  // Less dramatic scale
   visible: (custom: number) => ({
     opacity: 1,
     scale: 1,
     transition: {
-      delay: 0.6 + custom * 0.1,
-      duration: 0.4,
-      type: "spring",
-      stiffness: 200
+      delay: 0.5 + custom * 0.05,  // Slightly reduce delay
+      duration: 0.3,
+      ease: "easeOut"  // Replace spring with easeOut for consistency
     }
   })
 };
@@ -113,34 +117,36 @@ export default function Navbar() {
 
   return (
     <motion.header
-      initial="hidden"
-      animate="visible"
-      variants={navbarVariants}
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-    >
+  initial="hidden"
+  animate="visible"
+  variants={navbarVariants}
+  className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-16" // Add explicit h-16 here
+>
       {/* Entire navbar with light transparency */}
       <div className={`w-full h-16 bg-[#0a0a1a]/40 backdrop-blur-sm transition-all duration-300 ${scrolled ? "shadow-lg shadow-[#2A0E61]/30" : ""}`}>
         <div className="w-full h-full flex items-center justify-between px-10">
           {/* Logo/Name */}
-          <Link href="/" className="flex items-center">
-            <motion.span 
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-200 to-blue-200 hover:scale-110 transition-all duration-300"
-            >
-              Garvit Nag
-            </motion.span>
-          </Link>
+          {/* Logo/Name */}
+<Link href="/" className="flex items-center">
+  <motion.div 
+    initial={{ opacity: 0, x: -20 }}
+    animate={{ opacity: 1, x: 0 }}
+    transition={{ duration: 0.6, ease: "easeOut" }}
+  >
+    <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-200 to-blue-200 hover:scale-110 inline-block transition-all duration-300">
+      Garvit Nag
+    </span>
+  </motion.div>
+</Link>
           
           {/* Main Navigation - Higher transparency pill - DESKTOP */}
           <div className="hidden md:block">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="bg-[#1a1a2e]/40 backdrop-blur-md rounded-full px-8 py-2"
-            >
+          <motion.div 
+  initial={{ opacity: 0, scale: 0.95 }}  // Less scale
+  animate={{ opacity: 1, scale: 1 }}
+  transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}  // Add easeOut
+  className="bg-[#1a1a2e]/40 backdrop-blur-md rounded-full px-8 py-2"
+>
               <ul className="flex space-x-10">
                 {navItems.map((item, index) => (
                   <motion.li 
@@ -164,24 +170,23 @@ export default function Navbar() {
           
           {/* Social Links - DESKTOP */}
           <div className="hidden md:flex items-center gap-4 mr-2">
-            {socialLinks.map((link, index) => (
-              <motion.a
-                key={index}
-                custom={index}
-                variants={socialIconVariants}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-300 hover:text-white transition-all duration-300"
-                aria-label={link.name}
-                whileHover={{ scale: 1.2, rotate: 5 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <link.icon 
-                  size={22} 
-                />
-              </motion.a>
-            ))}
+          {socialLinks.map((link, index) => (
+  <motion.a
+    key={index}
+    custom={index}
+    variants={socialIconVariants}
+    href={link.url}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-gray-300 hover:text-white transition-all duration-300"
+    aria-label={link.name}
+    // Remove whileHover and whileTap completely
+  >
+    <span className="hover:scale-110 inline-block transition-all duration-300">
+      <link.icon size={22} />
+    </span>
+  </motion.a>
+))}
           </div>
           
           {/* Mobile Menu Button */}
@@ -267,25 +272,26 @@ export default function Navbar() {
                 transition={{ delay: 0.3, duration: 0.4 }}
               >
                 {socialLinks.map((link, index) => (
-                  <motion.a
-                    key={index}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-300 hover:text-white transition-all duration-300"
-                    aria-label={link.name}
-                    whileHover={{ scale: 1.2, y: -5 }}
-                    whileTap={{ scale: 0.9 }}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ 
-                      opacity: 1, 
-                      y: 0,
-                      transition: { delay: 0.4 + (index * 0.1) } 
-                    }}
-                  >
-                    <link.icon size={24} />
-                  </motion.a>
-                ))}
+  <motion.a
+    key={index}
+    href={link.url}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-gray-300 hover:text-white transition-all duration-300"
+    aria-label={link.name}
+    // Remove whileHover and whileTap
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ 
+      opacity: 1, 
+      y: 0,
+      transition: { delay: 0.4 + (index * 0.1) } 
+    }}
+  >
+    <span className="hover:scale-110 inline-block transition-all duration-300">
+      <link.icon size={24} />
+    </span>
+  </motion.a>
+))}
               </motion.div>
             </div>
           </motion.div>

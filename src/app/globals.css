@@ -36,3 +36,12 @@ body {
     background-color: #050816;
   }
 }
+
+.svg-icon {
+  filter: brightness(0) saturate(100%) invert(63%) sepia(33%) saturate(1068%) hue-rotate(179deg) brightness(101%) contrast(103%);
+}
+
+/* You can create different color variations like: */
+.svg-icon-purple {
+  filter: brightness(0) saturate(100%) invert(55%) sepia(12%) saturate(1470%) hue-rotate(223deg) brightness(92%) contrast(90%);
+}
