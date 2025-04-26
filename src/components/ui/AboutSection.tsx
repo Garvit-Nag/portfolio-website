@@ -4,7 +4,11 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Code, Award, Film, WandSparklesIcon, Lightbulb, GraduationCap, ScrollText } from 'lucide-react';
+import { Code, Award, Film, WandSparklesIcon, Lightbulb, GraduationCap, ScrollText, Briefcase } from 'lucide-react';
+import DialogPopup from './DialogPopup';
+import EducationPopupContent from './popups/EducationPopupContent';
+import GenAIPopupContent from './popups/GenAIPopupContent';
+import ClickIndicatorButton from './ClickIndicatorButton';
 
 // Animation variants
 const sectionVariants = {
@@ -92,6 +96,8 @@ export default function AboutSection() {
   const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
   const [currentHackathonIndex, setCurrentHackathonIndex] = useState(0);
   const dragContainerRef = useRef(null);
+  const [educationPopupOpen, setEducationPopupOpen] = useState(false);
+  const [genAIPopupOpen, setGenAIPopupOpen] = useState(false);
 
   // Auto rotation for movie images
   // Adjust timing for both intervals (1 second instead of 5 seconds)
@@ -163,98 +169,110 @@ export default function AboutSection() {
             </div>
 
             {/* Academic Background */}
-            <div className="bg-[#1a1a2e]/20 backdrop-blur-sm rounded-xl p-6 border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20">
-              <div className="flex items-start mb-4">
-                <GraduationCap className="mr-3 text-indigo-400" size={24} />
-                <h3 className="text-2xl font-semibold text-gray-200">Academic Journey</h3>
-              </div>
+            <div className="bg-[#1a1a2e]/20 backdrop-blur-sm rounded-xl p-6 border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20 relative group cursor-pointer" onClick={() => setEducationPopupOpen(true)}>
+            <div className="flex items-start mb-4">
+    <GraduationCap className="mr-3 text-indigo-400" size={24} />
+    <h3 className="text-2xl font-semibold text-gray-200">Academic Journey</h3>
+  </div>
 
-              <div className="space-y-4">
-                <div>
-                  <h4 className="text-xl font-medium text-blue-300">Chandigarh College Of Engineering & Technology</h4>
-                  <p className="text-gray-400">Bachelor of Engineering in Computer Science & Engineering</p>
-                  <p className="text-gray-400">CGPA: 7.79</p>
-                  <p className="text-gray-400">Dec. 2021 – June 2025</p>
-                </div>
+  <div className="space-y-4">
+    <div>
+      <h4 className="text-xl font-medium text-blue-300">Chandigarh College Of Engineering & Technology</h4>
+      <p className="text-gray-400">Bachelor of Engineering in Computer Science & Engineering</p>
+      <p className="text-gray-400">CGPA: 7.79</p>
+      <p className="text-gray-400">Dec. 2021 – June 2025</p>
+    </div>
 
-                <div>
-                  <h4 className="text-lg font-medium text-blue-300">Previous Education</h4>
-                  <p className="text-gray-400">High School Diploma with focus in Science & Mathematics</p>
-                </div>
-              </div>
-            </div>
+    <div>
+      <h4 className="text-lg font-medium text-blue-300">Schooling Background</h4>
+      <p className="text-gray-400">Senior Secondary (Science) and Secondary Education</p>
+    </div>
+  </div>
+  
+  {/* Click indicator button */}
+  <ClickIndicatorButton 
+    onClick={() => setEducationPopupOpen(true)} 
+    position="top-right"
+  />
+</div>
           </motion.div>
 
           {/* Achievements Section */}
           <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Google Hackathon */}
-            <div className="md:col-span-2 bg-[#1a1a2e]/20 backdrop-blur-sm rounded-xl p-6 border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20 group">
-              <div className="flex items-start mb-4">
-                <Award className="mr-3 text-yellow-400" size={24} />
-                <h3 className="text-2xl font-semibold text-gray-200">Gen AI Exchange Hackathon by Google</h3>
-              </div>
+            <div className="md:col-span-2 bg-[#1a1a2e]/20 backdrop-blur-sm rounded-xl p-6 border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20 group relative cursor-pointer" onClick={() => setGenAIPopupOpen(true)}>
+            <div className="flex items-start mb-4">
+    <Award className="mr-3 text-yellow-400" size={24} />
+    <h3 className="text-2xl font-semibold text-gray-200">Gen AI Exchange Hackathon by Google</h3>
+  </div>
 
-              <div className="flex flex-col md:flex-row gap-6">
-                <div className="relative w-full md:w-1/3 h-48 rounded-lg overflow-hidden">
-                  {hackathonImages.map((src, index) => (
-                    <div
-                      key={index}
-                      className={`absolute inset-0 transition-opacity duration-500 ${index === currentHackathonIndex ? 'opacity-100' : 'opacity-0'
-                        }`}
-                    >
-                      <img
-                        src={src}
-                        alt={`Hackathon Image ${index + 1}`}
-                        className="h-full w-full object-cover"
-                        style={{ opacity: 0.7 }} // Apply transparency directly to images
-                      />
-                    </div>
-                  ))}
-                </div>
+  <div className="flex flex-col md:flex-row gap-6">
+    <div className="relative w-full md:w-1/3 h-48 rounded-lg overflow-hidden">
+      {hackathonImages.map((src, index) => (
+        <div
+          key={index}
+          className={`absolute inset-0 transition-opacity duration-500 ${index === currentHackathonIndex ? 'opacity-100' : 'opacity-0'
+            }`}
+        >
+          <img
+            src={src}
+            alt={`Hackathon Image ${index + 1}`}
+            className="h-full w-full object-cover"
+            style={{ opacity: 0.7 }} // Apply transparency directly to images
+          />
+        </div>
+      ))}
+    </div>
 
-                <div className="md:w-2/3">
-                  <p className="text-purple-300 font-medium mb-2">Winner Network 18 Track • October 2024</p>
-                  <p className="text-gray-300 mb-2">
-                    Won first place in the Network 18 track at the Gen AI Exchange Hackathon organized by Google and Devfolio.
-                  </p>
-                  <p className="text-gray-300 mb-4">
-                    Developed an innovative solution to combat misinformation in video content by engineering a robust media
-                    attribution and tampering detection system.
-                  </p>
-                  <a
-                    href="#"
-                    className="text-blue-400 hover:text-blue-300 transition-colors duration-300 inline-flex items-center group"
-                  >
-                    Project Link
-                    <span className="ml-1 transform group-hover:translate-x-1 transition-transform duration-300">→</span>
-                  </a>
-                </div>
-              </div>
-            </div>
+    <div className="md:w-2/3">
+      <p className="text-purple-300 font-medium mb-2">Winner Network 18 Track • October 2024</p>
+      <p className="text-gray-300 mb-2">
+        Won first place in the Network 18 track at the Gen AI Exchange Hackathon organized by Google and Devfolio.
+      </p>
+      <p className="text-gray-300 mb-4">
+        Developed an innovative solution to combat misinformation in video content by engineering a robust media
+        attribution and tampering detection system.
+      </p>
+      <a
+        href="https://www.credify.fun"
+        target="_blank"
+        className="text-blue-400 hover:text-blue-300 transition-colors duration-300 inline-flex items-center group"
+      >
+        Project Link
+        <span className="ml-1 transform group-hover:translate-x-1 transition-transform duration-300">→</span>
+      </a>
+    </div>
+  </div>
+  
+  {/* Click indicator button */}
+  <ClickIndicatorButton 
+    onClick={() => setGenAIPopupOpen(true)}
+    position="top-right"
+  />
+</div>
 
-            {/* Smart India Hackathon */}
-            <div className="bg-[#1a1a2e]/20 backdrop-blur-sm rounded-xl p-6 border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20">
-              <div className="flex items-start mb-4">
-                <Award className="mr-3 text-blue-400" size={24} />
-                <h3 className="text-xl font-semibold text-gray-200">Smart India Hackathon</h3>
-              </div>
+            {/* Work Experience */}
+<div className="bg-[#1a1a2e]/20 backdrop-blur-sm rounded-xl p-6 border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20">
+  <div className="flex items-start mb-4">
+    <Briefcase className="mr-3 text-blue-400" size={24} />
+    <h3 className="text-xl font-semibold text-gray-200">Work Experience</h3>
+  </div>
 
-              <p className="text-purple-300 font-medium mb-2">Internal Winner • September 2024</p>
-              <p className="text-gray-300 mb-2">
-                AICTE Problem Statement ID: 1728
-              </p>
-              <p className="text-gray-300 mb-4">
-                Proposed an innovative paperless scholarship disbursement system for the Prime Minister&apos;s Special Scholarship
-                Scheme (PMSSS), winning the internal round.
-              </p>
-              <a
-                href="#"
-                className="text-blue-400 hover:text-blue-300 transition-colors duration-300 inline-flex items-center group"
-              >
-                Project Link
-                <span className="ml-1 transform group-hover:translate-x-1 transition-transform duration-300">→</span>
-              </a>
-            </div>
+  <p className="text-purple-300 font-medium mb-2">Freelance Developer • 2025</p>
+  <p className="text-gray-300 mb-2">
+    Stardom Web Application Development
+  </p>
+  <p className="text-gray-300 mb-4">
+    Implemented authentication using Appwrite, created functional dashboards, and developed product management features for a web application.
+  </p>
+  <a
+    href="https://www.stardom.co.in"
+    target="_blank"
+    className="text-blue-400 hover:text-blue-300 transition-colors duration-300 inline-flex items-center group">
+    Project Link
+    <span className="ml-1 transform group-hover:translate-x-1 transition-transform duration-300">→</span>
+  </a>
+</div>
           </motion.div>
 
           {/* Research Publication */}
@@ -276,7 +294,7 @@ export default function AboutSection() {
       environments through relational parameter indexing.
     </p>
     <a
-      href="https://doi.org/10.1729/Journal.40670"
+      href="https://www.ijnrd.org/viewpaperforall?paper=IJNRD2407360"
       target="_blank"
       rel="noopener noreferrer"
       className="text-blue-400 hover:text-blue-300 transition-colors duration-300 inline-flex items-center group"
@@ -287,8 +305,7 @@ export default function AboutSection() {
   </div>
 
   {/* My Toolbox Section - With Static Grid - taking 2/3 of width */}
-  <div className="md:col-span-2 bg-[#1a1a2e]/20 backdrop-blur-sm rounded-xl p-6 border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20">
-    <div className="flex items-start mb-4">
+  <div className="md:col-span-2 bg-[#1a1a2e]/20 backdrop-blur-sm rounded-xl p-6 border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20 flex flex-col">    <div className="flex items-start mb-4">
       <Code className="mr-3 text-green-400" size={24} />
       <h3 className="text-2xl font-semibold text-gray-200">My Toolbox</h3>
     </div>
@@ -296,8 +313,8 @@ export default function AboutSection() {
       Technologies I use to craft exceptional digital experiences.
     </p>
 
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-3">
-      {techStack.map((tech, index) => (
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-3 flex-grow">
+            {techStack.map((tech, index) => (
         <div
           key={`tech-${index}`}
           className="flex items-center px-3 py-2 bg-[#1a1a2e]/50 backdrop-blur-sm rounded-lg border border-gray-800/50 transform hover:scale-105 hover:bg-[#252542]/50 transition-all duration-300"
@@ -405,6 +422,22 @@ export default function AboutSection() {
 </motion.div>
         </motion.div>
       </div>
+      {/* Popups */}
+<DialogPopup 
+  isOpen={educationPopupOpen} 
+  onClose={() => setEducationPopupOpen(false)} 
+  title="Academic Background"
+>
+  <EducationPopupContent />
+</DialogPopup>
+
+<DialogPopup 
+  isOpen={genAIPopupOpen} 
+  onClose={() => setGenAIPopupOpen(false)} 
+  title="Gen AI Exchange Hackathon"
+>
+  <GenAIPopupContent />
+</DialogPopup>
     </section>
   );
 }
