@@ -11,7 +11,7 @@ export default function Toolbox() {
   return (
     <motion.div
       variants={itemVariants}
-      className="md:col-span-2 bg-[#1a1a2e]/20 backdrop-blur-sm rounded-xl p-6 border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20 flex flex-col"
+      className="xl:col-span-2 bg-[#1a1a2e]/20 backdrop-blur-sm rounded-xl p-6 border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20 flex flex-col"
     >
       <div className="flex items-start mb-4">
         <Code className="mr-3 text-green-400" size={24} />
@@ -21,7 +21,7 @@ export default function Toolbox() {
         Technologies I use to craft exceptional digital experiences.
       </p>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-3 flex-grow">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-3 flex-grow">
         {techStack.map((tech, index) => (
           <div
             key={`tech-${index}`}

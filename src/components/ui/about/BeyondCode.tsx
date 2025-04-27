@@ -12,7 +12,7 @@ export default function BeyondCode() {
   return (
     <motion.div
       variants={itemVariants}
-      className="md:col-span-2 bg-[#1a1a2e]/20 backdrop-blur-sm rounded-xl p-6 border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20"
+      className="lg:col-span-2 bg-[#1a1a2e]/20 backdrop-blur-sm rounded-xl p-6 border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20"
     >
       <div className="flex items-start mb-4">
         <WandSparklesIcon className="mr-3 text-emerald-400" size={24} />

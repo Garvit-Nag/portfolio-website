@@ -25,7 +25,7 @@ export default function Watchlist() {
       variants={itemVariants}
       className="bg-[#1a1a2e]/20 backdrop-blur-sm rounded-xl p-6 border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20"
     >
-      <div className="flex items-start mb-4">
+      <div className="flex items-center mb-4">
         <Film className="mr-3 text-red-400" size={24} />
         <h3 className="text-2xl font-semibold text-gray-200">My Watchlist</h3>
       </div>

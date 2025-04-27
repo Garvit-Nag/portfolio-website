@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @next/next/no-img-element */
 // src/components/ui/GenAIPopupContent.tsx
 import React, { useState, useEffect } from 'react';
 import { Award, CheckCircle } from 'lucide-react';

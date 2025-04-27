@@ -46,25 +46,25 @@ export default function AboutSection() {
           </motion.div>
 
           {/* Main Introduction & Academics Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <PersonalIntro />
             <AcademicJourney onOpenEducationPopup={() => setEducationPopupOpen(true)} />
           </div>
 
           {/* Achievements Section */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <GoogleHackathon onOpenGenAIPopup={() => setGenAIPopupOpen(true)} />
             <WorkExperience />
           </div>
 
           {/* Research Publication & Tools Section */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
             <ResearchPublication />
             <Toolbox />
           </div>
 
           {/* Bottom Row Grid - Beyond Code & My Watches */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <BeyondCode />
             <Watchlist />
           </div>

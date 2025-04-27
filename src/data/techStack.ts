@@ -5,8 +5,6 @@ export const techStack = [
     { name: "JavaScript" },
     { name: "TypeScript" },
     { name: "SQL" },
-    { name: "C" },
-    { name: "C++" },
     { name: "Next.js" },
     { name: "React" },
     { name: "FastAPI" },
@@ -17,8 +15,7 @@ export const techStack = [
     { name: "Appwrite" },
     { name: "Pandas" },
     { name: "NumPy" },
-    { name: "Matplotlib" },
     { name: "Git" },
     { name: "VS Code" },
-    { name: "Linux" },
+
   ];
