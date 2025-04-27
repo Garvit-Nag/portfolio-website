@@ -11,6 +11,7 @@ export const movies = [
     "/movies/bhaag_milkha_bhaag_poster.jpg",
     "/movies/apollo_thirteen_poster.jpg",
     "/movies/QB_poster.jpg",
+    "/movies/art_poster.jpg",
     "/movies/office_us_poster.jpg",
     "/movies/creed_poster.jpg",
   ];

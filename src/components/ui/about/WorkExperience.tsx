@@ -21,8 +21,7 @@ export default function WorkExperience() {
         Stardom Web Application Development
       </p>
       <p className="text-gray-300 mb-4">
-        Implemented authentication using Appwrite, created functional dashboards, and developed product management features for a web application.
-      </p>
+      Built key CMS functionalities for Stardom&apos;s web application, focusing on product management, content creation, and secure user authentication.      </p>
       <a
         href="https://www.stardom.co.in"
         target="_blank"

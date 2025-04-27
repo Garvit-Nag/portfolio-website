@@ -31,7 +31,7 @@ export default function AcademicJourney({ onOpenEducationPopup }: AcademicJourne
         </div>
 
         <div>
-          <h4 className="text-lg font-medium text-blue-300">Schooling Background</h4>
+          <h4 className="text-lg font-medium text-blue-300">Previous education</h4>
           <p className="text-gray-400">Senior Secondary (Science) and Secondary Education</p>
         </div>
       </div>
