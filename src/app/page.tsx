@@ -5,6 +5,7 @@ import { Particles } from "@/components/magicui/particles";
 import AboutSection from "@/components/ui/AboutSection";
 import HeroSection from "@/components/ui/HeroSection";
 import Navbar from "@/components/ui/Navbar";
+import ProjectsSection from "@/components/ui/projects/ProjectsSection";
 
 export default function Home() {
   return (
@@ -27,6 +28,8 @@ export default function Home() {
       <HeroSection />
 
       <AboutSection />
+
+      <ProjectsSection />
     </div>
   );
 }
