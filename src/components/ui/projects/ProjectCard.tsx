@@ -1,4 +1,3 @@
-// src/components/ui/projects/ProjectCard.tsx
 "use client";
 
 import { Project } from "@/data/projects";
@@ -9,75 +8,70 @@ import { useState } from "react";
 
 interface ProjectCardProps {
   project: Project;
-  isCenter: boolean;
   onClick: () => void;
 }
 
-export default function ProjectCard({ project, isCenter, onClick }: ProjectCardProps) {
+export default function ProjectCard({ project, onClick }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <motion.div
-      className="relative transition-all duration-500 cursor-pointer"
+      className={`relative w-[340px] h-[320px] rounded-xl overflow-hidden cursor-pointer 
+        bg-transparent backdrop-blur-[3px] transition-all duration-300
+        ${isHovered ? 'backdrop-blur-[8px]' : ''}`}
       onClick={onClick}
-      whileHover={!isCenter ? { scale: 1.05 } : {}}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      style={{
+        backgroundColor: 'rgba(15, 15, 30, 0.6)'  // Explicit rgba to ensure transparency works on all cards
+      }}
     >
-      {/* Card Container */}
-      <div className="relative w-80 h-[300px] overflow-hidden rounded-xl bg-[#1a1a2e]/20 backdrop-blur-sm border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20">
-        {/* Project image with proper fading effect */}
-        <div className="relative w-full h-full">
-          {/* Background image */}
-          <div 
-            className={`absolute inset-0 w-full h-full bg-cover bg-center transition-all duration-300 ${
-              isHovered ? 'blur-sm scale-105' : ''
-            }`}
-            style={{ backgroundImage: `url(${project.image})` }}
-          />
+      <div className="absolute inset-0 w-full h-full">
+        {/* Image container */}
+        <div 
+          className={`absolute inset-0 w-full h-[65%] bg-cover bg-center transition-all duration-300
+            ${isHovered ? 'opacity-40 filter blur-[2px]' : 'opacity-100'}`}
+          style={{ backgroundImage: `url(${project.image})` }}
+        />
+        
+        {/* Enhanced gradient overlay that blends image with the dark theme */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent from-30% via-[#0F0F1E]/90 via-65% to-[#0F0F1E]/95" />
+        
+        <div className={`absolute bottom-0 left-0 p-6 z-10 w-full transition-all duration-300
+          ${isHovered ? 'opacity-40' : 'opacity-100'}`}>
+          <h3 className="text-xl font-semibold text-gray-200 mb-1">
+            {project.title}
+          </h3>
           
-          {/* Dark gradient overlay that gets darker at bottom */}
-          <div className={`absolute inset-0 bg-gradient-to-b from-black/30 via-black/60 to-[#090325]/95 transition-opacity duration-300 ${
-            isHovered ? 'opacity-90' : 'opacity-100'
-          }`} />
-          
-          {/* Content container positioned at bottom */}
-          <div className={`absolute inset-x-0 bottom-0 p-6 z-10 transition-all duration-300 ${
-            isHovered ? 'blur-sm' : ''
-          }`}>
-            {/* Project title with glow effect */}
-            <h3 className="text-2xl font-bold text-blue-100 mb-2">{project.title}</h3>
-            
-            {/* Project description */}
-            <p className="text-gray-300 text-sm mb-4">{project.description}</p>
-          </div>
-
-          {/* Overlay with action buttons on hover */}
-          <div 
-            className={`absolute inset-0 flex items-center justify-center gap-6 transition-opacity duration-300 ${
-              isHovered ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            <Link 
-              href={project.githubLink} 
-              target="_blank" 
-              className="p-3 rounded-full bg-[#1a1a2e]/70 hover:bg-[#252542]/90 text-blue-400 transition-transform hover:scale-110 border border-blue-900/40 shadow-lg backdrop-blur-md hover:text-blue-300 transform hover:rotate-3"
-              onClick={(e) => e.stopPropagation()}
-              aria-label="View code"
-            >
-              <Code size={24} className="text-blue-400" />
-            </Link>
-            <Link 
-              href={project.liveLink} 
-              target="_blank" 
-              className="p-3 rounded-full bg-[#1a1a2e]/70 hover:bg-[#252542]/90 text-blue-400 transition-transform hover:scale-110 border border-blue-900/40 shadow-lg backdrop-blur-md hover:text-blue-300 transform hover:-rotate-3"
-              onClick={(e) => e.stopPropagation()}
-              aria-label="Preview live"
-            >
-              <Eye size={24} className="text-blue-400" />
-            </Link>
-          </div>
+          <p className="text-gray-400 text-sm line-clamp-2">
+            {project.description}
+          </p>
         </div>
+
+        <motion.div 
+          className="absolute inset-0 flex items-center justify-center gap-12 opacity-0 transition-all duration-300"
+          animate={{ opacity: isHovered ? 1 : 0 }}
+        >
+          <Link
+            href={project.githubLink}
+            target="_blank"
+            className="text-gray-200 hover:text-[#45e3ff] transition-all duration-300 hover:scale-125 hover:drop-shadow-[0_0_12px_rgba(69,227,255,0.7)] z-20"
+            onClick={(e) => e.stopPropagation()}
+            aria-label="View code"
+          >
+            <Code size={32} />
+          </Link>
+          
+          <Link
+            href={project.liveLink}
+            target="_blank"
+            className="text-gray-200 hover:text-[#45e3ff] transition-all duration-300 hover:scale-125 hover:drop-shadow-[0_0_12px_rgba(69,227,255,0.7)] z-20"
+            onClick={(e) => e.stopPropagation()}
+            aria-label="Preview live"
+          >
+            <Eye size={32} />
+          </Link>
+        </motion.div>
       </div>
     </motion.div>
   );
