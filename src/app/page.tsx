@@ -6,7 +6,6 @@ import AboutSection from "@/components/ui/AboutSection";
 import ContactSection from "@/components/ui/ContactSection";
 import HeroSection from "@/components/ui/HeroSection";
 import Navbar from "@/components/ui/Navbar";
-import { ProjectCarousel } from '@/components/ui/ProjectCarousel';
 import ProjectsSection from "@/components/ui/projects/ProjectsSection";
 export default function Home() {
   return (
@@ -33,7 +32,6 @@ export default function Home() {
       <ProjectsSection />
 
       <ContactSection />
-      <ProjectCarousel />
     </div>
   );
 }

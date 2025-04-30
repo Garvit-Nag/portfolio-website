@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { Project } from "@/data/projects";
@@ -8,18 +9,17 @@ import { useState } from "react";
 
 interface ProjectCardProps {
   project: Project;
-  onClick: () => void;
+  isActive?: boolean;
 }
 
-export default function ProjectCard({ project, onClick }: ProjectCardProps) {
+export default function ProjectCard({ project, isActive = false }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <motion.div
-      className={`relative w-[340px] h-[320px] rounded-xl overflow-hidden cursor-pointer 
+      className={`relative w-[300px] h-[300px] rounded-xl overflow-hidden cursor-pointer 
         bg-transparent backdrop-blur-[3px] transition-all duration-300
         ${isHovered ? 'backdrop-blur-[8px]' : ''}`}
-      onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
