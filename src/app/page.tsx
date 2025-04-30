@@ -3,10 +3,11 @@
 
 import { Particles } from "@/components/magicui/particles";
 import AboutSection from "@/components/ui/AboutSection";
+import ContactSection from "@/components/ui/ContactSection";
 import HeroSection from "@/components/ui/HeroSection";
 import Navbar from "@/components/ui/Navbar";
+import { ProjectCarousel } from '@/components/ui/ProjectCarousel';
 import ProjectsSection from "@/components/ui/projects/ProjectsSection";
-
 export default function Home() {
   return (
     <div className="relative min-h-screen w-full overflow-hidden">
@@ -30,6 +31,9 @@ export default function Home() {
       <AboutSection />
 
       <ProjectsSection />
+
+      <ContactSection />
+      <ProjectCarousel />
     </div>
   );
 }
