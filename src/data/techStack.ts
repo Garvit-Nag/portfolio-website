@@ -1,4 +1,3 @@
-// src/data/techStack.ts
 
 export const techStack = [
     { name: "Python" },

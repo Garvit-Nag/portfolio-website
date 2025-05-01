@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react/no-unescaped-entities */
-// src/components/ui/HeroSection.tsx
 "use client";
 
 import { motion } from "framer-motion";
@@ -10,25 +8,20 @@ import { cn } from "@/lib/utils";
 import { FileText } from "lucide-react";
 
 export default function HeroSection() {
-  // Cursor blink state
   const [cursorVisible, setCursorVisible] = useState(true);
 
-  // Command state
   const [commandDisplay, setCommandDisplay] = useState("");
   const command = "python dev_profile.py";
 
-  // Terminal states
   const [commandExecuted, setCommandExecuted] = useState(false);
   const [outputStage, setOutputStage] = useState(0);
   const [codeVisible, setCodeVisible] = useState(false);
 
   useEffect(() => {
-    // Cursor blinking effect
     const cursorInterval = setInterval(() => {
       setCursorVisible(prev => !prev);
     }, 530);
 
-    // Type the command character by character
     let currentIndex = 0;
     const typingInterval = setInterval(() => {
       if (currentIndex <= command.length) {
@@ -37,22 +30,17 @@ export default function HeroSection() {
       } else {
         clearInterval(typingInterval);
 
-        // Simulate command execution with a brief delay
         setTimeout(() => {
           setCommandExecuted(true);
 
-          // Show first line
           setTimeout(() => setOutputStage(1), 300);
 
-          // Show second line
           setTimeout(() => setOutputStage(2), 900);
 
-          // Show third line
           setTimeout(() => setOutputStage(3), 1500);
 
-          // Show code
           setTimeout(() => setCodeVisible(true), 2100);
-        }, 500); // Delay before command execution starts
+        }, 500); 
       }
     }, 100);
 

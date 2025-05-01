@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
-// src/components/ui/ContactSection.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -17,14 +16,14 @@ import ContactForm from "./ContactForm";
 import { getContactSocialLinks } from "@/data/socials";
 
 export default function ContactSection() {
-  // Cursor blink state
-  const [cursorVisible, setCursorVisible] = useState(true);
   
-  // Command state
+  const [cursorVisible, setCursorVisible] = useState(true);
+
+  
   const [commandDisplay, setCommandDisplay] = useState("");
   const command = "python contact_me.py";
-  
-  // Terminal state
+
+ 
   const [showFirstLine, setShowFirstLine] = useState(false);
   const [showSecondLine, setShowSecondLine] = useState(false);
   const [showThirdLine, setShowThirdLine] = useState(false);
@@ -45,14 +44,14 @@ export default function ContactSection() {
         return <Database className="w-5 h-5" />;
       case 'instagram':
         return (
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             className="w-5 h-5"
           >
             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
@@ -65,12 +64,12 @@ export default function ContactSection() {
     }
   };
   useEffect(() => {
-    // Cursor blinking effect
+  
     const cursorInterval = setInterval(() => {
       setCursorVisible(prev => !prev);
     }, 530);
+
     
-    // Type the command character by character
     let currentIndex = 0;
     const typingInterval = setInterval(() => {
       if (currentIndex <= command.length) {
@@ -78,7 +77,6 @@ export default function ContactSection() {
         currentIndex++;
       } else {
         clearInterval(typingInterval);
-        // Show terminal output sequentially
         setTimeout(() => setShowFirstLine(true), 300);
         setTimeout(() => setShowSecondLine(true), 600);
         setTimeout(() => setShowThirdLine(true), 900);
@@ -86,7 +84,7 @@ export default function ContactSection() {
         setTimeout(() => setShowFifthLine(true), 1500);
       }
     }, 100);
-    
+
     return () => {
       clearInterval(cursorInterval);
       clearInterval(typingInterval);
@@ -123,126 +121,126 @@ export default function ContactSection() {
             className="flex flex-col space-y-8"
           >
             {/* Terminal Component */}
-<div className="w-full relative mb-4"> {/* Added mb-12 for bottom margin */}
-  {/* Terminal window */}
-  <div className="rounded-lg overflow-hidden bg-[#1a1a2e]/20 backdrop-blur-sm border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20">
-    {/* Terminal header */}
-    <div className="bg-[#0a0a1a]/80 px-4 py-2 flex items-center justify-between">
-      <div className="flex space-x-2">
-        <div className="w-3 h-3 rounded-full bg-red-500"></div>
-        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-        <div className="w-3 h-3 rounded-full bg-green-500"></div>
-      </div>
-      <div className="text-xs text-gray-400">terminal@garvit-nag</div>
-    </div>
-    
-    {/* Terminal body */}
-    <div className="p-5 font-mono text-sm bg-[#1a1a2e]/10">
-      {/* Command line */}
-      <div className="flex items-center">
-        <span className="text-green-400 mr-2">➜</span>
-        <span className="text-blue-400 mr-2">~/connect</span>
-        <span className="text-gray-400">$</span>
-        <span className="ml-2 text-blue-300">
-          {commandDisplay}
-          <span className={cn("ml-0.5 inline-block w-2 h-4 bg-blue-300", 
-            cursorVisible ? "opacity-100" : "opacity-0"
-          )}></span>
-        </span>
-      </div>
-      
-      {/* Output section */}
-      {showFirstLine && (
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          className="mt-2 text-cyan-200"
-        >
-          &gt; Running contact script...
-        </motion.div>
-      )}
-      
-      {showSecondLine && (
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          className="text-purple-300"
-        >
-          def send_message():
-        </motion.div>
-      )}
-      
-      {showThirdLine && (
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          className="pl-4 text-gray-300"
-        >
-          """Let's build something amazing together"""
-        </motion.div>
-      )}
-      
-      {showFourthLine && (
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          className="pl-4 text-cyan-200"
-        >
-          return {"{`status: \"Ready for collaboration\", response_time: \"< 24 hours\"`}"}
-        </motion.div>
-      )}
-      
-      {showFifthLine && (
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          className="mt-2 text-green-400"
-        >
-          &gt; Awaiting your input...
-        </motion.div>
-      )}
-    </div>
-  </div>
-</div>
+            <div className="w-full relative mb-4"> {/* Added mb-12 for bottom margin */}
+              {/* Terminal window */}
+              <div className="rounded-lg overflow-hidden bg-[#1a1a2e]/20 backdrop-blur-sm border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20">
+                {/* Terminal header */}
+                <div className="bg-[#0a0a1a]/80 px-4 py-2 flex items-center justify-between">
+                  <div className="flex space-x-2">
+                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                  </div>
+                  <div className="text-xs text-gray-400">terminal@garvit-nag</div>
+                </div>
 
-{/* Social Links */}
-<div className="grid grid-cols-2 gap-4 mb-6"> 
-  {contactSocialLinks.map((link, index) => {
-    // Custom display text based on link type
-    let displayText = link.name;
-    if (link.name === 'GitHub') {
-      displayText = 'Garvit-Nag';
-    } else if (link.name === 'LinkedIn') {
-      displayText = 'garvit-nag';
-    } else if (link.name === 'Email') {
-      displayText = 'garvit1505@gmail.com';
-    } else if (link.name === 'Instagram') {
-      displayText = '@garwiitt';
-    }
-    
-    return (
-      <a
-        key={index}
-        href={link.url}
-        target={link.name === 'Email' ? '_self' : '_blank'}
-        rel="noopener noreferrer"
-        className="flex items-center p-4 rounded-lg bg-[#1a1a2e]/40 backdrop-blur-sm border border-gray-800/50 hover:bg-[#1a1a2e]/60 transition-all duration-300 group"
-      >
-        <span className={`mr-3 transition-colors duration-300 ${link.color}`}>
-          {renderIcon(link.icon)}
-        </span>
-        <span className={`transition-colors duration-300 ${link.color}`}>
-          {displayText}
-        </span>
-      </a>
-    );
-  })}
-</div>
+                {/* Terminal body */}
+                <div className="p-5 font-mono text-sm bg-[#1a1a2e]/10">
+                  {/* Command line */}
+                  <div className="flex items-center">
+                    <span className="text-green-400 mr-2">➜</span>
+                    <span className="text-blue-400 mr-2">~/connect</span>
+                    <span className="text-gray-400">$</span>
+                    <span className="ml-2 text-blue-300">
+                      {commandDisplay}
+                      <span className={cn("ml-0.5 inline-block w-2 h-4 bg-blue-300",
+                        cursorVisible ? "opacity-100" : "opacity-0"
+                      )}></span>
+                    </span>
+                  </div>
+
+                  {/* Output section */}
+                  {showFirstLine && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                      className="mt-2 text-cyan-200"
+                    >
+                      &gt; Running contact script...
+                    </motion.div>
+                  )}
+
+                  {showSecondLine && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                      className="text-purple-300"
+                    >
+                      def send_message():
+                    </motion.div>
+                  )}
+
+                  {showThirdLine && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                      className="pl-4 text-gray-300"
+                    >
+                      """Let's build something amazing together"""
+                    </motion.div>
+                  )}
+
+                  {showFourthLine && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                      className="pl-4 text-cyan-200"
+                    >
+                      return {"{`status: \"Ready for collaboration\", response_time: \"< 24 hours\"`}"}
+                    </motion.div>
+                  )}
+
+                  {showFifthLine && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                      className="mt-2 text-green-400"
+                    >
+                      &gt; Awaiting your input...
+                    </motion.div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Social Links */}
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              {contactSocialLinks.map((link, index) => {
+                // Custom display text based on link type
+                let displayText = link.name;
+                if (link.name === 'GitHub') {
+                  displayText = 'Garvit-Nag';
+                } else if (link.name === 'LinkedIn') {
+                  displayText = 'garvit-nag';
+                } else if (link.name === 'Email') {
+                  displayText = 'garvit1505@gmail.com';
+                } else if (link.name === 'Instagram') {
+                  displayText = '@garwiitt';
+                }
+
+                return (
+                  <a
+                    key={index}
+                    href={link.url}
+                    target={link.name === 'Email' ? '_self' : '_blank'}
+                    rel="noopener noreferrer"
+                    className="flex items-center p-4 rounded-lg bg-[#1a1a2e]/40 backdrop-blur-sm border border-gray-800/50 hover:bg-[#1a1a2e]/60 transition-all duration-300 group"
+                  >
+                    <span className={`mr-3 transition-colors duration-300 ${link.color}`}>
+                      {renderIcon(link.icon)}
+                    </span>
+                    <span className={`transition-colors duration-300 ${link.color}`}>
+                      {displayText}
+                    </span>
+                  </a>
+                );
+              })}
+            </div>
 
           </motion.div>
 

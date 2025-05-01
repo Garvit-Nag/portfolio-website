@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-// src/components/ui/about/GoogleHackathon.tsx
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -28,6 +27,11 @@ export default function GoogleHackathon({ onOpenGenAIPopup }: GoogleHackathonPro
   return (
     <motion.div
       variants={itemVariants}
+      whileHover={{
+        scale: 1.02,
+        boxShadow: "0 0 25px 5px rgba(42, 14, 97, 0.6)"
+      }}
+      transition={{ duration: 0.3 }}
       className="lg:col-span-2 bg-[#1a1a2e]/20 backdrop-blur-sm rounded-xl p-6 border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20 group relative cursor-pointer"
       onClick={onOpenGenAIPopup}
     >
@@ -41,9 +45,8 @@ export default function GoogleHackathon({ onOpenGenAIPopup }: GoogleHackathonPro
           {hackathonImages.map((src, index) => (
             <div
               key={index}
-              className={`absolute inset-0 transition-opacity duration-500 ${
-                index === currentHackathonIndex ? 'opacity-100' : 'opacity-0'
-              }`}
+              className={`absolute inset-0 transition-opacity duration-500 ${index === currentHackathonIndex ? 'opacity-100' : 'opacity-0'
+                }`}
             >
               <img
                 src={src}
@@ -74,9 +77,9 @@ export default function GoogleHackathon({ onOpenGenAIPopup }: GoogleHackathonPro
           </a>
         </div>
       </div>
-      
+
       {/* Click indicator button */}
-      <ClickIndicatorButton 
+      <ClickIndicatorButton
         onClick={onOpenGenAIPopup}
         position="top-right"
       />

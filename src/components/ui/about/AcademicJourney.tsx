@@ -1,4 +1,3 @@
-// src/components/ui/about/AcademicJourney.tsx
 "use client";
 
 import { motion } from 'framer-motion';
@@ -14,6 +13,11 @@ export default function AcademicJourney({ onOpenEducationPopup }: AcademicJourne
   return (
     <motion.div
       variants={itemVariants}
+      whileHover={{
+        scale: 1.02,
+        boxShadow: "0 0 25px 5px rgba(42, 14, 97, 0.6)"
+      }}
+      transition={{ duration: 0.3 }}
       className="bg-[#1a1a2e]/20 backdrop-blur-sm rounded-xl p-6 border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20 relative group cursor-pointer"
       onClick={onOpenEducationPopup}
     >
@@ -35,10 +39,10 @@ export default function AcademicJourney({ onOpenEducationPopup }: AcademicJourne
           <p className="text-gray-400">Senior Secondary (Science) and Secondary Education</p>
         </div>
       </div>
-      
+
       {/* Click indicator button */}
-      <ClickIndicatorButton 
-        onClick={onOpenEducationPopup} 
+      <ClickIndicatorButton
+        onClick={onOpenEducationPopup}
         position="top-right"
       />
     </motion.div>

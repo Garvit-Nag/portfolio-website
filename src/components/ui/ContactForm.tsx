@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react/no-unescaped-entities */
-// src/components/ui/ContactForm.tsx
 "use client";
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Loader2,Send, AlertCircle, X } from 'lucide-react';
+import { Check, Loader2, Send, AlertCircle, X } from 'lucide-react';
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -14,7 +12,7 @@ export default function ContactForm() {
     subject: '',
     message: '',
   });
-  
+
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [showNotification, setShowNotification] = useState(false);
@@ -33,7 +31,7 @@ export default function ContactForm() {
     setNotificationType(type);
     setNotificationMessage(message);
     setShowNotification(true);
-    
+
     // Auto hide after 5 seconds
     setTimeout(() => {
       setShowNotification(false);
@@ -44,18 +42,18 @@ export default function ContactForm() {
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return regex.test(email);
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Check email validation first
     if (!validateEmail(formData.email)) {
       displayNotification('error', 'Please enter a valid email address');
       return;
     }
-    
+
     setFormState('submitting');
-    
+
     try {
       // Using FormSubmit service
       const response = await fetch(`https://formsubmit.co/ajax/612dc0060d6ff326ef50881b31c128a4`, {
@@ -73,12 +71,12 @@ export default function ContactForm() {
           _captcha: "false",
         }),
       });
-      
+
       if (response.ok) {
         setFormState('success');
         setFormData({ name: '', email: '', subject: '', message: '' });
         displayNotification('success', 'Thanks for reaching out! I\'ll get back to you soon.');
-        
+
         // Reset form state after 5 seconds
         setTimeout(() => setFormState('idle'), 5000);
       } else {
@@ -87,7 +85,7 @@ export default function ContactForm() {
     } catch (error) {
       setFormState('error');
       displayNotification('error', 'Something went wrong. Please try again later.');
-      
+
       // Reset form state after 5 seconds
       setTimeout(() => setFormState('idle'), 5000);
     }
@@ -100,13 +98,13 @@ export default function ContactForm() {
         setShowNotification(false);
       }
     };
-    
+
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
   }, []);
 
   return (
-    <div className="bg-[#0D0D1E]/80 backdrop-blur-sm rounded-xl p-6 border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20 relative">      
+    <div className="bg-[#0D0D1E]/80 backdrop-blur-sm rounded-xl p-6 border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20 relative">
       <div className={`relative transition-all duration-300 ${showNotification ? 'blur-[2px]' : ''}`}>
         <h3 className="text-2xl font-semibold text-gray-200 mb-6 flex items-center">
           <Send className="mr-3 text-gray-400" size={22} />
@@ -176,13 +174,12 @@ export default function ContactForm() {
           <motion.button
             type="submit"
             disabled={formState === 'submitting'}
-            className={`w-full py-3 px-6 rounded-lg font-medium flex items-center justify-center transition-all duration-300 ${
-              formState === 'submitting' 
-                ? 'bg-[#1a1a2e] text-gray-400 cursor-not-allowed border border-gray-700/50' 
-                : formState === 'success' 
-                  ? 'bg-green-600/30 text-green-300 border border-green-700/50 hover:bg-green-600/40' 
+            className={`w-full py-3 px-6 rounded-lg font-medium flex items-center justify-center transition-all duration-300 ${formState === 'submitting'
+                ? 'bg-[#1a1a2e] text-gray-400 cursor-not-allowed border border-gray-700/50'
+                : formState === 'success'
+                  ? 'bg-green-600/30 text-green-300 border border-green-700/50 hover:bg-green-600/40'
                   : 'bg-slate-300 text-gray-900 hover:bg-gray-200 hover:shadow-md hover:shadow-[#2A0E61]/20'
-            }`}
+              }`}
             whileHover={{ scale: formState === 'submitting' ? 1 : 1.02 }}
             whileTap={{ scale: formState === 'submitting' ? 1 : 0.98 }}
           >
@@ -193,10 +190,10 @@ export default function ContactForm() {
             ) : (
               <Send className="w-5 h-5 mr-2" />
             )}
-            {formState === 'submitting' 
-              ? 'Sending...' 
-              : formState === 'success' 
-                ? 'Message Sent!' 
+            {formState === 'submitting'
+              ? 'Sending...'
+              : formState === 'success'
+                ? 'Message Sent!'
                 : 'Send Message'}
           </motion.button>
         </form>
@@ -211,12 +208,11 @@ export default function ContactForm() {
             exit={{ opacity: 0, y: 10 }}
             className={`absolute inset-0 flex items-center justify-center z-50`}
           >
-            <div 
-              className={`px-8 py-6 rounded-lg shadow-xl ${
-                notificationType === 'success' 
-                  ? 'bg-green-900/90 text-green-200 border border-green-700/50' 
+            <div
+              className={`px-8 py-6 rounded-lg shadow-xl ${notificationType === 'success'
+                  ? 'bg-green-900/90 text-green-200 border border-green-700/50'
                   : 'bg-red-900/90 text-red-200 border border-red-700/50'
-              }`}
+                }`}
               style={{ backdropFilter: 'blur(8px)' }}
             >
               <div className="flex items-center justify-between mb-2">
@@ -230,8 +226,8 @@ export default function ContactForm() {
                     {notificationType === 'success' ? 'Success' : 'Error'}
                   </span>
                 </span>
-                <button 
-                  onClick={() => setShowNotification(false)} 
+                <button
+                  onClick={() => setShowNotification(false)}
                   className="p-1 rounded-full hover:bg-gray-800/50 transition-colors"
                   aria-label="Close notification"
                 >

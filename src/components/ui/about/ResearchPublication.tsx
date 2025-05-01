@@ -1,4 +1,3 @@
-// src/components/ui/about/ResearchPublication.tsx
 "use client";
 
 import { motion } from 'framer-motion';
@@ -21,8 +20,8 @@ export default function ResearchPublication() {
       </p>
       <p className="text-gray-400 mb-4">Published in IJNRD • DOI: 10.1729/Journal.40670</p>
       <p className="text-gray-300 mb-4">
-  Novel protocol enhancing network performance through parameter indexing methods.
-</p>
+        Novel protocol enhancing network performance through parameter indexing methods.
+      </p>
       <a
         href="https://www.ijnrd.org/viewpaperforall?paper=IJNRD2407360"
         target="_blank"

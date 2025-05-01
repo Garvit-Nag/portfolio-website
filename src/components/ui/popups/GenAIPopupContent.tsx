@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-// src/components/ui/GenAIPopupContent.tsx
 import React, { useState, useEffect } from 'react';
 import { Award, CheckCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function GenAIPopupContent() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -21,52 +21,67 @@ export default function GenAIPopupContent() {
     const interval = setInterval(() => {
       setCurrentImageIndex(prev => (prev + 1) % hackathonImages.length);
     }, 3000);
-    
+
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="space-y-6">
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="space-y-6"
+    >
       {/* Image Carousel */}
-      <div className="relative h-64 w-full rounded-lg overflow-hidden mb-6">
+      <div className="relative h-64 w-full rounded-xl overflow-hidden mb-6 border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20">
         {hackathonImages.map((src, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              index === currentImageIndex ? 'opacity-100' : 'opacity-0'
-            }`}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+              }`}
           >
             <img
               src={src}
               alt={`Hackathon Image ${index + 1}`}
-              className="h-full w-full object-cover rounded-lg"
+              className="h-full w-full object-cover"
             />
           </div>
         ))}
-        
+
         {/* Image Counter */}
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-sm px-3 py-1 rounded-full flex items-center space-x-1">
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-[#0D0D1E]/60 backdrop-blur-sm px-3 py-1 rounded-full flex items-center space-x-1">
           {hackathonImages.map((_, index) => (
-            <div 
-              key={index} 
-              className={`w-2 h-2 rounded-full ${
-                index === currentImageIndex ? 'bg-blue-400' : 'bg-gray-600'
-              }`}
+            <div
+              key={index}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${index === currentImageIndex ? 'bg-blue-400' : 'bg-gray-600'
+                }`}
             ></div>
           ))}
         </div>
       </div>
-      
+
       {/* Title and Badge */}
-      <div className="flex items-center space-x-2 mb-4">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.2 }}
+        className="flex items-center space-x-2 mb-4"
+      >
         <Award className="text-yellow-400" size={24} />
-        <h3 className="text-2xl font-semibold text-purple-300">
+        <h3 className="text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-blue-300">
           Gen AI Exchange Hackathon by Google
         </h3>
-      </div>
-      
-      <div className="p-4 bg-indigo-950/20 border border-indigo-900/30 rounded-lg">
-        <p className="text-purple-300 font-medium mb-2">Winner Network 18 Track • October 2024</p>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.3 }}
+        className="p-5 bg-[#0D0D1E]/80 backdrop-blur-sm border border-gray-800/50 rounded-xl shadow-lg shadow-[#2A0E61]/20"
+      >
+        <p className="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-blue-300 font-medium mb-2">
+          Winner Network 18 Track • October 2024
+        </p>
         <p className="text-gray-300 mb-2">
           Won first place in the Network 18 track at the Gen AI Exchange Hackathon organized by Google and Devfolio.
         </p>
@@ -74,15 +89,22 @@ export default function GenAIPopupContent() {
           Developed an innovative solution to combat misinformation in video content by engineering a robust media
           attribution and tampering detection system.
         </p>
-      </div>
-      
+      </motion.div>
+
       {/* Project Details */}
-      <div className="space-y-4">
-        <h4 className="text-xl font-medium text-blue-300">About Credify</h4>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.4 }}
+        className="space-y-4 p-5 bg-[#1a1a2e]/50 backdrop-blur-sm border border-gray-800/50 rounded-xl shadow-lg shadow-[#2A0E61]/10"
+      >
+        <h4 className="text-xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-cyan-200">
+          About Credify
+        </h4>
         <p className="text-gray-300">
           Together with my team, we built Credify - our solution to Network 18&apos;s challenge of reimagining how we verify and protect digital content in the age of AI.
         </p>
-        
+
         <div className="space-y-3 mt-4">
           <h5 className="text-lg font-medium text-gray-200">Solving Core Problems:</h5>
           <div className="flex items-start space-x-2">
@@ -94,7 +116,7 @@ export default function GenAIPopupContent() {
             <p className="text-gray-300">Tracking content attribution across platforms</p>
           </div>
         </div>
-        
+
         <div className="space-y-3 mt-4">
           <h5 className="text-lg font-medium text-gray-200">Technology Stack:</h5>
           <ul className="space-y-2 text-gray-300">
@@ -116,19 +138,24 @@ export default function GenAIPopupContent() {
             </li>
           </ul>
         </div>
-      </div>
-      
+      </motion.div>
+
       {/* Project Link */}
-      <div className="pt-4 mt-2">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.5 }}
+        className="pt-4 mt-2"
+      >
         <a
           href="https://credify.fun"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block px-6 py-3 bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 font-medium rounded-lg transition-colors duration-300 border border-blue-600/30"
+          className="inline-block px-6 py-3 bg-[#1a1a2e]/70 hover:bg-[#1a1a2e]/90 text-blue-300 font-medium rounded-lg transition-all duration-300 border border-blue-600/30 shadow-md shadow-[#2A0E61]/10 hover:shadow-lg hover:shadow-[#2A0E61]/20"
         >
           Visit Project ↗
         </a>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

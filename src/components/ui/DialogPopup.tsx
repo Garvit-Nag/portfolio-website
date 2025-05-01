@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-// src/components/ui/DialogPopup.tsx
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -21,7 +20,7 @@ export default function DialogPopup({ isOpen, onClose, title, children }: Dialog
         onClose();
       }
     };
-    
+
     document.addEventListener('keydown', handleEscapeKey);
     return () => document.removeEventListener('keydown', handleEscapeKey);
   }, [isOpen, onClose]);
@@ -51,7 +50,7 @@ export default function DialogPopup({ isOpen, onClose, title, children }: Dialog
             className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50"
             onClick={onClose}
           />
-          
+
           {/* Dialog - Fixed positioning at center */}
           <div className="fixed inset-0 overflow-y-auto z-50 flex items-center justify-center">
             <motion.div
@@ -65,14 +64,14 @@ export default function DialogPopup({ isOpen, onClose, title, children }: Dialog
               {/* Header */}
               <div className="flex items-center justify-between px-6 py-4 border-b border-gray-800/50">
                 <h2 className="text-2xl font-semibold text-gray-200">{title}</h2>
-                <button 
+                <button
                   onClick={onClose}
                   className="p-2 rounded-full hover:bg-gray-800/30 transition-colors duration-200"
                 >
                   <X size={20} className="text-gray-400" />
                 </button>
               </div>
-              
+
               {/* Content */}
               <div className="p-6 overflow-y-auto max-h-[calc(85vh-110px)]">
                 {children}

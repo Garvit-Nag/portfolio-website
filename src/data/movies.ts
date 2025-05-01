@@ -1,4 +1,3 @@
-// src/data/movies.ts
 
 export const movies = [
     "/movies/hacksaw_poster.jpg",

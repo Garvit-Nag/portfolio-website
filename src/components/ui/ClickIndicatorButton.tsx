@@ -1,4 +1,3 @@
-// src/components/ui/ClickIndicatorButton.tsx
 import { MousePointer } from 'lucide-react';
 
 interface ClickIndicatorButtonProps {
@@ -7,22 +6,22 @@ interface ClickIndicatorButtonProps {
   label?: string;
 }
 
-export default function ClickIndicatorButton({ 
-  onClick, 
-  position = 'top-right', 
-  label = "More Details" 
+export default function ClickIndicatorButton({
+  onClick,
+  position = 'top-right',
+  label = "More Details"
 }: ClickIndicatorButtonProps) {
-  const positions = { 
-    'top-right': 'top-3 right-3', 
-    'bottom-right': 'bottom-3 right-3' 
+  const positions = {
+    'top-right': 'top-3 right-3',
+    'bottom-right': 'bottom-3 right-3'
   };
-  
+
   return (
-    <button 
+    <button
       onClick={(e) => {
         e.stopPropagation();
         onClick();
-      }} 
+      }}
       className={`absolute ${positions[position]} p-2 bg-[#1a1a2e]/80 hover:bg-[#252542] rounded-full 
       flex items-center justify-center transition-all duration-200 z-10 border border-gray-800/50 
       shadow-sm group-hover:scale-110 hover:scale-125`}

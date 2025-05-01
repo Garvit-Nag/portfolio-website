@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-// src/components/ui/about/Watchlist.tsx
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -11,7 +10,6 @@ import { movies } from '@/data/movies';
 export default function Watchlist() {
   const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
 
-  // Auto rotation for movie images
   useEffect(() => {
     const movieInterval = setInterval(() => {
       setCurrentMovieIndex(prevIndex => (prevIndex + 1) % movies.length);
@@ -37,9 +35,8 @@ export default function Watchlist() {
         {movies.map((src, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              index === currentMovieIndex ? 'opacity-100' : 'opacity-0'
-            }`}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentMovieIndex ? 'opacity-100' : 'opacity-0'
+              }`}
           >
             <div className="bg-purple-500/20 absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <img

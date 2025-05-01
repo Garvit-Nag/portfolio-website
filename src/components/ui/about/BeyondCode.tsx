@@ -1,4 +1,3 @@
-// src/components/ui/about/BeyondCode.tsx
 "use client";
 
 import { useRef } from 'react';
@@ -23,28 +22,28 @@ export default function BeyondCode() {
       </p>
 
       {/* Interactive draggable playground */}
-      <div 
+      <div
         ref={dragContainerRef}
         className="relative h-64 w-full overflow-hidden rounded-lg bg-[#1a1a2e]/30 border border-gray-800/30"
         id="drag-container"
       >
         {interests.map((interest, index) => {
-          // Calculate positions to scatter across the entire container
+        
           const positions = [
-            { x: 50, y: 50 },  // top left
-            { x: 220, y: 40 },  // top right
-            { x: 400, y: 80 },  // top right further
-            { x: 100, y: 150 }, // bottom left
-            { x: 270, y: 130 }, // middle
-            { x: 450, y: 160 }, // bottom right
-            { x: 150, y: 90 },  // center left
-            { x: 350, y: 180 }, // bottom center
+            { x: 50, y: 50 },  
+            { x: 220, y: 40 },  
+            { x: 400, y: 80 },  
+            { x: 100, y: 150 },
+            { x: 270, y: 130 }, 
+            { x: 450, y: 160 }, 
+            { x: 150, y: 90 },  
+            { x: 350, y: 180 }, 
           ];
-          
-          const pos = index < positions.length 
-            ? positions[index] 
+
+          const pos = index < positions.length
+            ? positions[index]
             : { x: Math.random() * 400 + 50, y: Math.random() * 150 + 30 };
-          
+
           return (
             <motion.div
               key={index}
@@ -57,7 +56,7 @@ export default function BeyondCode() {
                 position: 'absolute',
                 left: pos.x,
                 top: pos.y,
-                touchAction: 'none' // Improves touch device behavior
+                touchAction: 'none' 
               }}
               className="px-4 py-2 bg-[#1a1a2e]/50 backdrop-blur-sm rounded-full border border-gray-800/50 flex items-center cursor-grab active:cursor-grabbing"
             >

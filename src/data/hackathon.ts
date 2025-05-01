@@ -1,4 +1,3 @@
-// src/data/hackathon.ts
 
 export const hackathonImages = [
     "/hackathon/genAI_1.jpg",

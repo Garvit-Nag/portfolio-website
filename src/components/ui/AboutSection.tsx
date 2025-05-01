@@ -1,4 +1,3 @@
-// src/components/ui/AboutSection.tsx
 "use client";
 
 import { useState } from 'react';
@@ -7,8 +6,6 @@ import DialogPopup from './DialogPopup';
 import EducationPopupContent from './popups/EducationPopupContent';
 import GenAIPopupContent from './popups/GenAIPopupContent';
 import { sectionVariants } from '@/data/about';
-
-// Import individual section components
 import PersonalIntro from './about/PersonalIntro';
 import AcademicJourney from './about/AcademicJourney';
 import GoogleHackathon from './about/GoogleHackathon';
@@ -37,7 +34,7 @@ export default function AboutSection() {
             variants={sectionVariants}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-200 to-blue-200 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-200 to-blue-200 mb-4 leading-[1.2] pb-2">
               A Glimpse Into My World
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
@@ -72,17 +69,17 @@ export default function AboutSection() {
       </div>
 
       {/* Popups */}
-      <DialogPopup 
-        isOpen={educationPopupOpen} 
-        onClose={() => setEducationPopupOpen(false)} 
+      <DialogPopup
+        isOpen={educationPopupOpen}
+        onClose={() => setEducationPopupOpen(false)}
         title="Academic Background"
       >
         <EducationPopupContent />
       </DialogPopup>
 
-      <DialogPopup 
-        isOpen={genAIPopupOpen} 
-        onClose={() => setGenAIPopupOpen(false)} 
+      <DialogPopup
+        isOpen={genAIPopupOpen}
+        onClose={() => setGenAIPopupOpen(false)}
         title="Gen AI Exchange Hackathon"
       >
         <GenAIPopupContent />

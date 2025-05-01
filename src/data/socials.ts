@@ -1,6 +1,6 @@
 export interface SocialLink {
     name: string;
-    icon: string; // Icon identifier instead of JSX
+    icon: string; 
     url: string;
     color: string;
   }
@@ -33,12 +33,10 @@ export interface SocialLink {
     },
   ];
   
-  // This function returns specific social links based on provided names
   export function getSelectedSocialLinks(names: string[]): SocialLink[] {
     return socialLinks.filter(link => names.includes(link.name));
   }
   
-  // Get the four social links for the contact section
   export function getContactSocialLinks(): SocialLink[] {
     return getSelectedSocialLinks(['LinkedIn', 'GitHub', 'Email', 'Instagram']);
   }

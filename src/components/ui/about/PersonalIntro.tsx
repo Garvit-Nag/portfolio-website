@@ -1,4 +1,3 @@
-// src/components/ui/about/PersonalIntro.tsx
 "use client";
 
 import { motion } from 'framer-motion';

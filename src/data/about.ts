@@ -1,4 +1,3 @@
-// src/data/about.ts
 
 export const interests = [
     { name: "Football", icon: "⚽" },
@@ -11,7 +10,6 @@ export const interests = [
     { name: "Sketching", icon: "🎨" },
   ];
   
-  // Animation variants
   export const sectionVariants = {
     hidden: { opacity: 0 },
     visible: {

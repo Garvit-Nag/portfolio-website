@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-// src/components/ui/about/Toolbox.tsx
 "use client";
 
 import { motion } from 'framer-motion';
@@ -27,8 +26,8 @@ export default function Toolbox() {
             key={`tech-${index}`}
             className="flex items-center px-3 py-2 bg-[#1a1a2e]/50 backdrop-blur-sm rounded-lg border border-gray-800/50 transform hover:scale-105 hover:bg-[#252542]/50 transition-all duration-300"
           >
-            <img 
-              src={`/icons/${tech.name.toLowerCase().replace(/[/+]/g, '-').replace(/\s+/g, '')}.svg`} 
+            <img
+              src={`/icons/${tech.name.toLowerCase().replace(/[/+]/g, '-').replace(/\s+/g, '')}.svg`}
               alt={`${tech.name} logo`}
               className="w-5 h-5 mr-2 text-gray-300"
               style={{ filter: 'invert(70%) sepia(13%) saturate(210%) hue-rotate(179deg) brightness(92%) contrast(87%)' }}
