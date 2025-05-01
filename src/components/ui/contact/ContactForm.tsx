@@ -25,13 +25,11 @@ export default function ContactForm() {
     });
   };
 
-  // Display notification
   const displayNotification = (type: 'success' | 'error', message: string) => {
     setNotificationType(type);
     setNotificationMessage(message);
     setShowNotification(true);
 
-    // Auto hide after 5 seconds
     setTimeout(() => {
       setShowNotification(false);
     }, 5000);
@@ -45,7 +43,6 @@ export default function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Check email validation first
     if (!validateEmail(formData.email)) {
       displayNotification('error', 'Please enter a valid email address');
       return;
@@ -54,7 +51,6 @@ export default function ContactForm() {
     setFormState('submitting');
 
     try {
-      // Using FormSubmit service
       const response = await fetch(`https://formsubmit.co/ajax/612dc0060d6ff326ef50881b31c128a4`, {
         method: 'POST',
         headers: {
@@ -68,7 +64,8 @@ export default function ContactForm() {
           message: formData.message,
           _subject: `Portfolio Inquiry: ${formData.subject || "New Message"}`,
           _captcha: "false",
-          _next: window.location.href, // Add the current URL as the redirect
+          _next: "https://portfolio-website-blush-seven.vercel.app", 
+          _domain: "portfolio-website-blush-seven.vercel.app", 
         }),
       });
 
@@ -79,7 +76,6 @@ export default function ContactForm() {
         setFormData({ name: '', email: '', subject: '', message: '' });
         displayNotification('success', 'Thanks for reaching out! I\'ll get back to you soon.');
 
-        // Reset form state after 5 seconds
         setTimeout(() => setFormState('idle'), 5000);
       } else {
         throw new Error(data.message || 'Failed to send message');
@@ -89,19 +85,16 @@ export default function ContactForm() {
       setFormState('error');
       
       let errorMsg = 'Something went wrong. Please try again later.';
-      // If we have a more specific error message, use it
       if (error.message && error.message !== 'Failed to send message') {
         errorMsg = error.message;
       }
       
       displayNotification('error', errorMsg);
 
-      // Reset form state after 5 seconds
       setTimeout(() => setFormState('idle'), 5000);
     }
   };
 
-  // Close notification on escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
