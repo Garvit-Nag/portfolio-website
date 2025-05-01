@@ -4,6 +4,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, Loader2, Send, AlertCircle, X } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -17,6 +18,10 @@ export default function ContactForm() {
   const [showNotification, setShowNotification] = useState(false);
   const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
   const [notificationMessage, setNotificationMessage] = useState('');
+
+  useEffect(() => {
+    emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!);
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -51,46 +56,37 @@ export default function ContactForm() {
     setFormState('submitting');
 
     try {
-      const response = await fetch(`https://formsubmit.co/ajax/612dc0060d6ff326ef50881b31c128a4`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
+  
+      const result = await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,  
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!, 
+        {
           name: formData.name,
           email: formData.email,
           subject: formData.subject || "Portfolio Contact",
           message: formData.message,
-          _subject: `Portfolio Inquiry: ${formData.subject || "New Message"}`,
-          _captcha: "false",
-          _next: "https://portfolio-website-blush-seven.vercel.app", 
-          _domain: "portfolio-website-blush-seven.vercel.app", 
-        }),
-      });
-
-      const data = await response.json();
+        }
+      );
       
-      if (response.ok) {
+      if (result.status === 200) {
         setFormState('success');
         setFormData({ name: '', email: '', subject: '', message: '' });
         displayNotification('success', 'Thanks for reaching out! I\'ll get back to you soon.');
-
+        
         setTimeout(() => setFormState('idle'), 5000);
       } else {
-        throw new Error(data.message || 'Failed to send message');
+        throw new Error('Failed to send message');
       }
     } catch (error: any) {
       console.error('Form submission error:', error);
       setFormState('error');
       
       let errorMsg = 'Something went wrong. Please try again later.';
-      if (error.message && error.message !== 'Failed to send message') {
-        errorMsg = error.message;
+      if (error.text) {
+        errorMsg = error.text;
       }
       
       displayNotification('error', errorMsg);
-
       setTimeout(() => setFormState('idle'), 5000);
     }
   };
