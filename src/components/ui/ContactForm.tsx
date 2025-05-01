@@ -3,9 +3,9 @@
 // src/components/ui/ContactForm.tsx
 "use client";
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Check, Loader2, SendHorizonal } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Check, Loader2,Send, AlertCircle, X } from 'lucide-react';
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -17,12 +17,9 @@ export default function ContactForm() {
   
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
-  const [isFocused, setIsFocused] = useState({
-    name: false,
-    email: false,
-    subject: false,
-    message: false,
-  });
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
+  const [notificationMessage, setNotificationMessage] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -31,213 +28,170 @@ export default function ContactForm() {
     });
   };
 
-  const handleFocus = (field: string) => {
-    setIsFocused(prev => ({
-      ...prev,
-      [field]: true,
-    }));
+  // Display notification
+  const displayNotification = (type: 'success' | 'error', message: string) => {
+    setNotificationType(type);
+    setNotificationMessage(message);
+    setShowNotification(true);
+    
+    // Auto hide after 5 seconds
+    setTimeout(() => {
+      setShowNotification(false);
+    }, 5000);
   };
 
-  const handleBlur = (field: string) => {
-    setIsFocused(prev => ({
-      ...prev,
-      [field]: false,
-    }));
+  const validateEmail = (email: string): boolean => {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(email);
   };
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Check email validation first
+    if (!validateEmail(formData.email)) {
+      displayNotification('error', 'Please enter a valid email address');
+      return;
+    }
+    
     setFormState('submitting');
     
     try {
       // Using FormSubmit service
-      const response = await fetch(`https://formsubmit.co/garvit1505@gmail.com`, {
+      const response = await fetch(`https://formsubmit.co/ajax/612dc0060d6ff326ef50881b31c128a4`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          ...formData,
-          _subject: `Portfolio Contact: ${formData.subject}`,
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject || "Portfolio Contact",
+          message: formData.message,
+          _subject: `Portfolio Inquiry: ${formData.subject || "New Message"}`,
+          _captcha: "false",
         }),
       });
       
       if (response.ok) {
         setFormState('success');
         setFormData({ name: '', email: '', subject: '', message: '' });
+        displayNotification('success', 'Thanks for reaching out! I\'ll get back to you soon.');
         
+        // Reset form state after 5 seconds
         setTimeout(() => setFormState('idle'), 5000);
       } else {
         throw new Error('Failed to send message');
       }
     } catch (error) {
       setFormState('error');
-      setErrorMessage('Something went wrong. Please try again later.');
+      displayNotification('error', 'Something went wrong. Please try again later.');
       
-      setTimeout(() => {
-        setFormState('idle');
-        setErrorMessage('');
-      }, 5000);
+      // Reset form state after 5 seconds
+      setTimeout(() => setFormState('idle'), 5000);
     }
   };
 
+  // Close notification on escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setShowNotification(false);
+      }
+    };
+    
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, []);
+
   return (
-    <div className="bg-[#1a1a2e]/20 backdrop-blur-sm rounded-xl p-8 border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20">
-      <h3 className="text-2xl font-semibold text-gray-200 mb-6 flex items-center">
-        <SendHorizonal className="mr-3 text-blue-400" size={22} />
-        Send a Message
-      </h3>
+    <div className="bg-[#0D0D1E]/80 backdrop-blur-sm rounded-xl p-6 border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20 relative">      
+      <div className={`relative transition-all duration-300 ${showNotification ? 'blur-[2px]' : ''}`}>
+        <h3 className="text-2xl font-semibold text-gray-200 mb-6 flex items-center">
+          <Send className="mr-3 text-gray-400" size={22} />
+          Send a Message
+        </h3>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="space-y-6">
-          {/* Name input with floating label and glow effect */}
-          <div className="relative">
-            <motion.input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              onFocus={() => handleFocus('name')}
-              onBlur={() => handleBlur('name')}
-              required
-              className={`w-full bg-[#0D0D1E]/60 text-gray-200 border px-4 py-4 rounded-lg focus:outline-none transition-all duration-300 z-10 ${
-                isFocused.name || formData.name ? 'border-blue-500/70' : 'border-gray-700/50'
-              }`}
-              style={{
-                boxShadow: (isFocused.name || formData.name) ? '0 0 15px rgba(59, 130, 246, 0.15)' : 'none',
-              }}
-            />
-            <motion.label
-              htmlFor="name"
-              className={`absolute left-4 transition-all duration-300 z-0 ${
-                isFocused.name || formData.name
-                  ? 'text-xs text-blue-400 -top-2.5 bg-[#0D0D1E]/80 px-2'
-                  : 'text-gray-400 top-4'
-              }`}
-              initial={false}
-              animate={{
-                y: isFocused.name || formData.name ? 0 : 0
-              }}
-            >
-              Your Name
-            </motion.label>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Name and Email in a grid for desktop */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {/* Name input */}
+            <div>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                placeholder="Your Name"
+                className="w-full bg-[#1a1a2e]/50 text-gray-200 border border-gray-800/50 px-4 py-3 rounded-lg focus:outline-none focus:border-gray-700/80 transition-all duration-300 placeholder-gray-500"
+              />
+            </div>
+
+            {/* Email input */}
+            <div>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                placeholder="Email Address"
+                className="w-full bg-[#1a1a2e]/50 text-gray-200 border border-gray-800/50 px-4 py-3 rounded-lg focus:outline-none focus:border-gray-700/80 transition-all duration-300 placeholder-gray-500"
+              />
+            </div>
           </div>
 
-          {/* Email input with floating label and glow effect */}
-          <div className="relative">
-            <motion.input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              onFocus={() => handleFocus('email')}
-              onBlur={() => handleBlur('email')}
-              required
-              className={`w-full bg-[#0D0D1E]/60 text-gray-200 border px-4 py-4 rounded-lg focus:outline-none transition-all duration-300 z-10 ${
-                isFocused.email || formData.email ? 'border-blue-500/70' : 'border-gray-700/50'
-              }`}
-              style={{
-                boxShadow: (isFocused.email || formData.email) ? '0 0 15px rgba(59, 130, 246, 0.15)' : 'none',
-              }}
-            />
-            <motion.label
-              htmlFor="email"
-              className={`absolute left-4 transition-all duration-300 z-0 ${
-                isFocused.email || formData.email
-                  ? 'text-xs text-blue-400 -top-2.5 bg-[#0D0D1E]/80 px-2'
-                  : 'text-gray-400 top-4'
-              }`}
-            >
-              Email Address
-            </motion.label>
-          </div>
-
-          {/* Subject input with floating label and glow effect */}
-          <div className="relative">
-            <motion.input
+          {/* Subject field (typeable) */}
+          <div>
+            <input
               type="text"
               id="subject"
               name="subject"
               value={formData.subject}
               onChange={handleChange}
-              onFocus={() => handleFocus('subject')}
-              onBlur={() => handleBlur('subject')}
-              required
-              className={`w-full bg-[#0D0D1E]/60 text-gray-200 border px-4 py-4 rounded-lg focus:outline-none transition-all duration-300 z-10 ${
-                isFocused.subject || formData.subject ? 'border-blue-500/70' : 'border-gray-700/50'
-              }`}
-              style={{
-                boxShadow: (isFocused.subject || formData.subject) ? '0 0 15px rgba(59, 130, 246, 0.15)' : 'none',
-              }}
+              placeholder="Subject"
+              className="w-full bg-[#1a1a2e]/50 text-gray-200 border border-gray-800/50 px-4 py-3 rounded-lg focus:outline-none focus:border-gray-700/80 transition-all duration-300 placeholder-gray-500"
             />
-            <motion.label
-              htmlFor="subject"
-              className={`absolute left-4 transition-all duration-300 z-0 ${
-                isFocused.subject || formData.subject
-                  ? 'text-xs text-blue-400 -top-2.5 bg-[#0D0D1E]/80 px-2'
-                  : 'text-gray-400 top-4'
-              }`}
-            >
-              Subject
-            </motion.label>
           </div>
 
-          {/* Message input with floating label and glow effect */}
-          <div className="relative">
-            <motion.textarea
+          {/* Message input */}
+          <div>
+            <textarea
               id="message"
               name="message"
               value={formData.message}
               onChange={handleChange}
-              onFocus={() => handleFocus('message')}
-              onBlur={() => handleBlur('message')}
               required
-              rows={5}
-              className={`w-full bg-[#0D0D1E]/60 text-gray-200 border px-4 py-4 rounded-lg focus:outline-none transition-all duration-300 z-10 resize-none ${
-                isFocused.message || formData.message ? 'border-blue-500/70' : 'border-gray-700/50'
-              }`}
-              style={{
-                boxShadow: (isFocused.message || formData.message) ? '0 0 15px rgba(59, 130, 246, 0.15)' : 'none',
-              }}
-            ></motion.textarea>
-            <motion.label
-              htmlFor="message"
-              className={`absolute left-4 transition-all duration-300 z-0 ${
-                isFocused.message || formData.message
-                  ? 'text-xs text-blue-400 -top-2.5 bg-[#0D0D1E]/80 px-2'
-                  : 'text-gray-400 top-4'
-              }`}
-            >
-              Your Message
-            </motion.label>
+              rows={3} // Reduced from 4 to 3 to save space
+              placeholder="Your Message"
+              className="w-full bg-[#1a1a2e]/50 text-gray-200 border border-gray-800/50 px-4 py-3 rounded-lg focus:outline-none focus:border-gray-700/80 transition-all duration-300 resize-none placeholder-gray-500"
+            ></textarea>
           </div>
 
-          {/* Submit button with hover effects */}
+          {/* Submit button */}
           <motion.button
             type="submit"
             disabled={formState === 'submitting'}
-            className={`w-full py-4 px-6 rounded-lg font-medium text-white flex items-center justify-center transition-all duration-300 ${
+            className={`w-full py-3 px-6 rounded-lg font-medium flex items-center justify-center transition-all duration-300 ${
               formState === 'submitting' 
-                ? 'bg-blue-500/50 cursor-not-allowed' 
+                ? 'bg-[#1a1a2e] text-gray-400 cursor-not-allowed border border-gray-700/50' 
                 : formState === 'success' 
-                  ? 'bg-green-500/80 hover:bg-green-600/80' 
-                  : 'bg-gradient-to-r from-blue-600/80 to-indigo-600/80 hover:from-blue-700/80 hover:to-indigo-700/80'
+                  ? 'bg-green-600/30 text-green-300 border border-green-700/50 hover:bg-green-600/40' 
+                  : 'bg-slate-300 text-gray-900 hover:bg-gray-200 hover:shadow-md hover:shadow-[#2A0E61]/20'
             }`}
             whileHover={{ scale: formState === 'submitting' ? 1 : 1.02 }}
             whileTap={{ scale: formState === 'submitting' ? 1 : 0.98 }}
-            style={{
-              boxShadow: formState === 'submitting' ? 'none' : '0 4px 14px 0 rgba(59, 130, 246, 0.25)'
-            }}
           >
             {formState === 'submitting' ? (
               <Loader2 className="w-5 h-5 mr-2 animate-spin" />
             ) : formState === 'success' ? (
               <Check className="w-5 h-5 mr-2" />
             ) : (
-              <SendHorizonal className="w-5 h-5 mr-2" />
+              <Send className="w-5 h-5 mr-2" />
             )}
             {formState === 'submitting' 
               ? 'Sending...' 
@@ -245,33 +199,50 @@ export default function ContactForm() {
                 ? 'Message Sent!' 
                 : 'Send Message'}
           </motion.button>
-          
-          {/* Status messages */}
-          {formState === 'error' && (
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-red-400 text-sm text-center mt-4"
+        </form>
+      </div>
+
+      {/* Notification Overlay */}
+      <AnimatePresence>
+        {showNotification && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className={`absolute inset-0 flex items-center justify-center z-50`}
+          >
+            <div 
+              className={`px-8 py-6 rounded-lg shadow-xl ${
+                notificationType === 'success' 
+                  ? 'bg-green-900/90 text-green-200 border border-green-700/50' 
+                  : 'bg-red-900/90 text-red-200 border border-red-700/50'
+              }`}
+              style={{ backdropFilter: 'blur(8px)' }}
             >
-              {errorMessage}
-            </motion.div>
-          )}
-          
-          {formState === 'success' && (
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-green-400 text-sm text-center mt-4"
-            >
-              Thanks for reaching out! I'll get back to you soon.
-            </motion.div>
-          )}
-          
-          {/* FormSubmit anti-spam fields */}
-          <input type="text" name="_honey" style={{ display: 'none' }} />
-          <input type="hidden" name="_captcha" value="false" />
-        </div>
-      </form>
+              <div className="flex items-center justify-between mb-2">
+                <span className="flex items-center">
+                  {notificationType === 'success' ? (
+                    <Check size={20} className="text-green-300 mr-2" />
+                  ) : (
+                    <AlertCircle size={20} className="text-red-300 mr-2" />
+                  )}
+                  <span className="font-semibold">
+                    {notificationType === 'success' ? 'Success' : 'Error'}
+                  </span>
+                </span>
+                <button 
+                  onClick={() => setShowNotification(false)} 
+                  className="p-1 rounded-full hover:bg-gray-800/50 transition-colors"
+                  aria-label="Close notification"
+                >
+                  <X size={16} className="text-gray-300" />
+                </button>
+              </div>
+              <p className="text-center">{notificationMessage}</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
