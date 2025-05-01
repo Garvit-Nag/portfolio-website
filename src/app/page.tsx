@@ -1,6 +1,5 @@
 "use client";
 
-import { LightweightParticles } from "@/components/background/LightweightParticles";
 import { Particles } from "@/components/magicui/particles";
 import AboutSection from "@/components/ui/AboutSection";
 import ContactSection from "@/components/ui/contact/ContactSection";
@@ -14,29 +13,25 @@ export default function Home() {
 
   useEffect(() => {
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768); 
+      setIsMobile(window.innerWidth < 900); 
     };
 
-    
     checkIfMobile();
 
-    
     window.addEventListener("resize", checkIfMobile);
 
-    
     return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden">
-      {/* Conditional Particles Background */}
+      {/* Conditional Background */}
       <div className="absolute inset-0 z-0">
         {isMobile ? (
-          <LightweightParticles
-            className="absolute inset-0"
-            quantity={100} 
-            color="#ffffff"
-            speed={0.2} 
+          <div 
+            className="absolute inset-0 pointer-events-none" 
+            style={{ backgroundColor: "rgba(1, 6, 18, 0.97)" }}
+            aria-hidden="true"
           />
         ) : (
           <Particles
@@ -48,7 +43,7 @@ export default function Home() {
           />
         )}
       </div>
-      
+
       <Navbar />
 
       <HeroSection />
