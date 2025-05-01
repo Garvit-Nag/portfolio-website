@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -14,7 +14,6 @@ export default function ContactForm() {
   });
 
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
-  const [errorMessage, setErrorMessage] = useState('');
   const [showNotification, setShowNotification] = useState(false);
   const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
   const [notificationMessage, setNotificationMessage] = useState('');
@@ -69,9 +68,12 @@ export default function ContactForm() {
           message: formData.message,
           _subject: `Portfolio Inquiry: ${formData.subject || "New Message"}`,
           _captcha: "false",
+          _next: window.location.href, // Add the current URL as the redirect
         }),
       });
 
+      const data = await response.json();
+      
       if (response.ok) {
         setFormState('success');
         setFormData({ name: '', email: '', subject: '', message: '' });
@@ -80,11 +82,19 @@ export default function ContactForm() {
         // Reset form state after 5 seconds
         setTimeout(() => setFormState('idle'), 5000);
       } else {
-        throw new Error('Failed to send message');
+        throw new Error(data.message || 'Failed to send message');
       }
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Form submission error:', error);
       setFormState('error');
-      displayNotification('error', 'Something went wrong. Please try again later.');
+      
+      let errorMsg = 'Something went wrong. Please try again later.';
+      // If we have a more specific error message, use it
+      if (error.message && error.message !== 'Failed to send message') {
+        errorMsg = error.message;
+      }
+      
+      displayNotification('error', errorMsg);
 
       // Reset form state after 5 seconds
       setTimeout(() => setFormState('idle'), 5000);
@@ -164,7 +174,7 @@ export default function ContactForm() {
               value={formData.message}
               onChange={handleChange}
               required
-              rows={3} // Reduced from 4 to 3 to save space
+              rows={3}
               placeholder="Your Message"
               className="w-full bg-[#1a1a2e]/50 text-gray-200 border border-gray-800/50 px-4 py-3 rounded-lg focus:outline-none focus:border-gray-700/80 transition-all duration-300 resize-none placeholder-gray-500"
             ></textarea>
