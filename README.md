@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+![portfolio-website](https://socialify.git.ci/Garvit-Nag/portfolio-website/image?font=Source+Code+Pro&language=1&name=1&owner=1&pattern=Brick+Wall&theme=Dark)
 
-## Getting Started
+# Portfolio Website
 
-First, run the development server:
+A modern, responsive personal portfolio website built with Next.js, TypeScript, and Three.js.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🌐 Live Website
+
+- Main: [www.garvitnag.in](https://www.garvitnag.in)
+- Alternative: [portfolio-website-blush-seven.vercel.app](https://portfolio-website-blush-seven.vercel.app)
+
+## 🚀 Overview
+
+This portfolio website showcases professional experience, projects, and skills using modern web technologies. It features interactive 3D elements, smooth animations, and a responsive design that works across all devices.
+
+## ✨ Features
+
+- **Responsive Design**: Works seamlessly across desktop, tablet, and mobile devices
+- **Smooth Animations**: Powered by Framer Motion for fluid transitions
+- **Contact Form**: Integrated with EmailJS for easy communication
+- **Modern UI Components**: Leveraging Tailwind CSS for styling
+
+## 🛠️ Technologies Used
+
+- **Framework**: [Next.js 15](https://nextjs.org/) (React 19)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Animation**: [Framer Motion](https://www.framer.com/motion/)
+- **Icons**: [React Icons](https://react-icons.github.io/react-icons/)
+- **Email**: [EmailJS](https://www.emailjs.com/)
+- **Text Animation**: [Typewriter Effect](https://github.com/tameemsafi/typewriterjs)
+
+## 📋 Getting Started
+
+### Prerequisites
+
+- Node.js (version 18 or higher)
+- npm or yarn or pnpm or bun
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Garvit-Nag/portfolio-website.git
+   cd portfolio-website
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   # or
+   bun install
+   ```
+
+3. Set up environment variables:
+   Create a `.env.local` file in the root directory with the following variables:
+   ```
+   NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_service_id
+   NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id
+   NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key
+   ```
+   These variables are required for the contact form to work properly. You'll need to create an account on [EmailJS](https://www.emailjs.com/) to get these values.
+
+4. Run the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm dev
+   # or
+   bun dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## 🔧 Project Structure
+
+```
+portfolio-website/
+├── app/                 # Next.js app directory
+├── components/          # React components
+├── public/              # Static files
+├── styles/              # CSS/Tailwind styles
+└── package.json         # Project dependencies
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Note**: Don't forget to add the required EmailJS environment variables to your deployment platform.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔄 Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm start` - Start production server
+- `npm run lint` - Run ESLint for code quality
 
-## Learn More
+## 👤 Author
 
-To learn more about Next.js, take a look at the following resources:
+- **Garvit Nag** - [GitHub](https://github.com/Garvit-Nag)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📄 License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project is available for use under the MIT License.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Created with ❤️ using Next.js 
