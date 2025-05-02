@@ -2,7 +2,7 @@
 
 # Portfolio Website
 
-A modern, responsive personal portfolio website built with Next.js, TypeScript, and Three.js.
+A modern, responsive personal portfolio website built with Next.js, TypeScript, and Tailwind CSS.
 
 ## 🌐 Live Website
 
