@@ -43,7 +43,7 @@ export default function Home() {
 
           <StaticParticles
             className="absolute inset-0"
-            quantity={120}
+            quantity={80}
             color="#ffffff"
             size={0.4}
           />
