@@ -2,8 +2,8 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
 import {
   Linkedin,
@@ -18,18 +18,20 @@ import { getContactSocialLinks } from "@/data/socials";
 export default function ContactSection() {
   
   const [cursorVisible, setCursorVisible] = useState(true);
-
-  
   const [commandDisplay, setCommandDisplay] = useState("");
   const command = "python contact_me.py";
-
- 
+  
   const [showFirstLine, setShowFirstLine] = useState(false);
   const [showSecondLine, setShowSecondLine] = useState(false);
   const [showThirdLine, setShowThirdLine] = useState(false);
   const [showFourthLine, setShowFourthLine] = useState(false);
   const [showFifthLine, setShowFifthLine] = useState(false);
+  
+  const terminalRef = useRef(null);
+  const isInView = useInView(terminalRef, { once: true, amount: 0.2 });
+  
   const contactSocialLinks = getContactSocialLinks();
+  
   const renderIcon = (iconType: string) => {
     switch (iconType) {
       case 'linkedin':
@@ -63,13 +65,15 @@ export default function ContactSection() {
         return null;
     }
   };
-  useEffect(() => {
   
+  useEffect(() => {
+    // Only start animations if terminal is in view
+    if (!isInView) return;
+    
     const cursorInterval = setInterval(() => {
       setCursorVisible(prev => !prev);
     }, 530);
 
-    
     let currentIndex = 0;
     const typingInterval = setInterval(() => {
       if (currentIndex <= command.length) {
@@ -89,7 +93,7 @@ export default function ContactSection() {
       clearInterval(cursorInterval);
       clearInterval(typingInterval);
     };
-  }, []);
+  }, [isInView]);
 
 
   return (
@@ -121,7 +125,7 @@ export default function ContactSection() {
             className="flex flex-col space-y-8"
           >
             {/* Terminal Component */}
-            <div className="w-full relative mb-4"> {/* Added mb-12 for bottom margin */}
+            <div ref={terminalRef} className="w-full relative mb-4"> {/* Added ref here */}
               {/* Terminal window */}
               <div className="rounded-lg overflow-hidden bg-[#1a1a2e]/20 backdrop-blur-sm border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20">
                 {/* Terminal header */}

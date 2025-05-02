@@ -9,13 +9,30 @@ import { FileText } from "lucide-react";
 
 export default function HeroSection() {
   const [cursorVisible, setCursorVisible] = useState(true);
-
   const [commandDisplay, setCommandDisplay] = useState("");
   const command = "python dev_profile.py";
-
   const [commandExecuted, setCommandExecuted] = useState(false);
   const [outputStage, setOutputStage] = useState(0);
   const [codeVisible, setCodeVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Check if we're on client-side for device detection
+    if (typeof window !== "undefined") {
+      const checkMobile = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+
+      // Initial check
+      checkMobile();
+
+      // Add event listener for window resize
+      window.addEventListener("resize", checkMobile);
+
+      // Clean up event listener
+      return () => window.removeEventListener("resize", checkMobile);
+    }
+  }, []);
 
   useEffect(() => {
     const cursorInterval = setInterval(() => {
@@ -40,7 +57,7 @@ export default function HeroSection() {
           setTimeout(() => setOutputStage(3), 1500);
 
           setTimeout(() => setCodeVisible(true), 2100);
-        }, 500); 
+        }, 500);
       }
     }, 100);
 
@@ -89,15 +106,38 @@ export default function HeroSection() {
               transition={{ delay: 0.8, duration: 0.8 }}
               className="flex flex-wrap gap-4 justify-center md:justify-start"
             >
+              {/* Device-specific resume button */}
+              {isMobile ? (
+                // For mobile: Download the resume
+                <a
+                  href="/Resume.pdf"
+                  download="Garvit_Nag_Resume.pdf"
+                  className="px-8 py-3 bg-gray-300 rounded-md text-black font-medium hover:bg-gray-400 hover:shadow-md transition-all duration-300 flex items-center gap-2"
+                >
+                  <FileText size={18} className="text-black" />
+                  Resume
+                </a>
+              ) : (
+                // For desktop: Open in new tab
+                <a
+                  href="/Resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-8 py-3 bg-gray-300 rounded-md text-black font-medium hover:bg-gray-400 hover:shadow-md transition-all duration-300 flex items-center gap-2"
+                >
+                  <FileText size={18} className="text-black" />
+                  Resume
+                </a>
+              )}
+
               <Link
-                href="/resume"
-                className="px-8 py-3 bg-gray-300 rounded-md text-black font-medium hover:bg-gray-400 hover:shadow-md transition-all duration-300 flex items-center gap-2"
-              >
-                <FileText size={18} className="text-black" />
-                Resume
-              </Link>
-              <Link
-                href="/#projects"
+                href="/#about"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('about')?.scrollIntoView({
+                    behavior: 'smooth'
+                  });
+                }}
                 className="px-8 py-3 bg-transparent backdrop-blur-sm border border-gray-600 rounded-md text-gray-300 font-medium hover:bg-gray-800/30 hover:border-gray-400 hover:text-gray-100 transition-all duration-300"
               >
                 Learn More
