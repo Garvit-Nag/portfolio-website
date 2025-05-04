@@ -69,19 +69,19 @@ export default function HeroSection() {
   return (
     <section className="relative z-10 min-h-screen flex items-center px-6 py-12 mt-10">
       <div className="container mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="space-y-6 text-center md:text-left"
+            className="space-y-6 text-center lg:text-left"
           >
             <div>
               <motion.h1
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4, duration: 0.8 }}
-                className="text-5xl md:text-6xl font-bold leading-tight"
+                className="text-5xl lg:text-6xl font-bold leading-tight"
               >
                 Hi I&apos;m{" "}
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-200 to-blue-200">
@@ -94,7 +94,7 @@ export default function HeroSection() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.8 }}
-              className="text-gray-400 text-xl max-w-lg mx-auto md:mx-0"
+              className="text-gray-400 text-xl max-w-lg mx-auto lg:mx-0"
             >
               I build innovative web applications with cutting-edge technologies.
               Turning complex problems into elegant solutions through code.
@@ -104,11 +104,10 @@ export default function HeroSection() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8, duration: 0.8 }}
-              className="flex flex-wrap gap-4 justify-center md:justify-start"
+              className="flex flex-wrap gap-4 justify-center lg:justify-start"
             >
               {/* Device-specific resume button */}
               {isMobile ? (
-                // For mobile: Download the resume
                 <a
                   href="/Resume.pdf"
                   download="Garvit_Nag_Resume.pdf"
@@ -150,7 +149,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="flex justify-center md:justify-end"
+            className="flex justify-center lg:justify-end"
           >
             <div className="w-full max-w-xl relative">
               {/* Terminal window */}
@@ -168,18 +167,38 @@ export default function HeroSection() {
                 {/* Terminal body */}
                 <div className="p-6 font-mono text-sm bg-[#1a1a2e]/10">
                   {/* Command line */}
-                  <div className="flex items-center">
-                    <span className="text-green-400 mr-2">➜</span>
-                    <span className="text-blue-400 mr-2">~/garvit</span>
-                    <span className="text-gray-400">$</span>
-                    <span className="ml-2 text-gray-200">
-                      {commandDisplay}
-                      <span
-                        className={cn("ml-0.5 inline-block w-2 h-4 bg-gray-300",
-                          cursorVisible ? "opacity-100" : "opacity-0"
-                        )}
-                      ></span>
-                    </span>
+                  <div>
+                    {/* Desktop version (single line) - hidden on mobile */}
+                    <div className="hidden sm:flex items-center">
+                      <span className="text-green-400 mr-2">➜</span>
+                      <span className="text-blue-400 mr-2">~/garvit</span>
+                      <span className="text-gray-400">$</span>
+                      <span className="ml-2 text-gray-200">
+                        {commandDisplay}
+                        <span
+                          className={cn("ml-0.5 inline-block w-2 h-4 bg-gray-300",
+                            cursorVisible ? "opacity-100" : "opacity-0"
+                          )}
+                        ></span>
+                      </span>
+                    </div>
+
+                    {/* Mobile version (two lines) */}
+                    <div className="sm:hidden">
+                      <div className="flex items-center">
+                        <span className="text-green-400 mr-2">➜</span>
+                        <span className="text-blue-400 mr-2">~/garvit</span>
+                        <span className="text-gray-400">$</span>
+                      </div>
+                      <div className="pl-4 mt-1 text-gray-200">
+                        {commandDisplay}
+                        <span
+                          className={cn("ml-0.5 inline-block w-2 h-4 bg-gray-300",
+                            cursorVisible ? "opacity-100" : "opacity-0"
+                          )}
+                        ></span>
+                      </div>
+                    </div>
                   </div>
 
                   {/* Output section */}

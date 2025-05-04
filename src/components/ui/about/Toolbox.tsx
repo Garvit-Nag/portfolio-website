@@ -29,10 +29,10 @@ export default function Toolbox() {
             <img
               src={`/icons/${tech.name.toLowerCase().replace(/[/+]/g, '-').replace(/\s+/g, '')}.svg`}
               alt={`${tech.name} logo`}
-              className="w-5 h-5 mr-2 text-gray-300"
+              className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-gray-300"
               style={{ filter: 'invert(70%) sepia(13%) saturate(210%) hue-rotate(179deg) brightness(92%) contrast(87%)' }}
             />
-            <span className="text-gray-300 text-sm">{tech.name}</span>
+            <span className="text-gray-300 text-xs sm:text-sm">{tech.name}</span>
           </div>
         ))}
       </div>

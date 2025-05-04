@@ -16,22 +16,22 @@ import ContactForm from "./ContactForm";
 import { getContactSocialLinks } from "@/data/socials";
 
 export default function ContactSection() {
-  
+
   const [cursorVisible, setCursorVisible] = useState(true);
   const [commandDisplay, setCommandDisplay] = useState("");
   const command = "python contact_me.py";
-  
+
   const [showFirstLine, setShowFirstLine] = useState(false);
   const [showSecondLine, setShowSecondLine] = useState(false);
   const [showThirdLine, setShowThirdLine] = useState(false);
   const [showFourthLine, setShowFourthLine] = useState(false);
   const [showFifthLine, setShowFifthLine] = useState(false);
-  
+
   const terminalRef = useRef(null);
   const isInView = useInView(terminalRef, { once: true, amount: 0.2 });
-  
+
   const contactSocialLinks = getContactSocialLinks();
-  
+
   const renderIcon = (iconType: string) => {
     switch (iconType) {
       case 'linkedin':
@@ -65,11 +65,11 @@ export default function ContactSection() {
         return null;
     }
   };
-  
+
   useEffect(() => {
     // Only start animations if terminal is in view
     if (!isInView) return;
-    
+
     const cursorInterval = setInterval(() => {
       setCursorVisible(prev => !prev);
     }, 530);
@@ -141,16 +141,34 @@ export default function ContactSection() {
                 {/* Terminal body */}
                 <div className="p-5 font-mono text-sm bg-[#1a1a2e]/10">
                   {/* Command line */}
-                  <div className="flex items-center">
-                    <span className="text-green-400 mr-2">➜</span>
-                    <span className="text-blue-400 mr-2">~/connect</span>
-                    <span className="text-gray-400">$</span>
-                    <span className="ml-2 text-blue-300">
-                      {commandDisplay}
-                      <span className={cn("ml-0.5 inline-block w-2 h-4 bg-blue-300",
-                        cursorVisible ? "opacity-100" : "opacity-0"
-                      )}></span>
-                    </span>
+                  <div>
+                    {/* Desktop version (single line) - hidden on mobile */}
+                    <div className="hidden sm:flex items-center">
+                      <span className="text-green-400 mr-2">➜</span>
+                      <span className="text-blue-400 mr-2">~/connect</span>
+                      <span className="text-gray-400">$</span>
+                      <span className="ml-2 text-blue-300">
+                        {commandDisplay}
+                        <span className={cn("ml-0.5 inline-block w-2 h-4 bg-blue-300",
+                          cursorVisible ? "opacity-100" : "opacity-0"
+                        )}></span>
+                      </span>
+                    </div>
+
+                    {/* Mobile version (two lines) */}
+                    <div className="sm:hidden">
+                      <div className="flex items-center">
+                        <span className="text-green-400 mr-2">➜</span>
+                        <span className="text-blue-400 mr-2">~/connect</span>
+                        <span className="text-gray-400">$</span>
+                      </div>
+                      <div className="pl-4 mt-1 text-blue-300">
+                        {commandDisplay}
+                        <span className={cn("ml-0.5 inline-block w-2 h-4 bg-blue-300",
+                          cursorVisible ? "opacity-100" : "opacity-0"
+                        )}></span>
+                      </div>
+                    </div>
                   </div>
 
                   {/* Output section */}
