@@ -15,13 +15,12 @@ export default function PersonalIntro() {
         <h3 className="text-2xl font-semibold text-gray-200">About Me</h3>
       </div>
       <p className="text-gray-300 mb-4">
-        I&apos;m a passionate software developer with a focus on web development and AI applications.
-        I enjoy tackling complex problems and turning them into elegant solutions through code.
-        My journey in technology is driven by curiosity and a desire to create meaningful digital experiences.
+      I build web apps that are clean, fast, and make sense — using tech that actually excites me.
+      Turning messy problems into stuff people genuinely enjoy using is my favorite kind of challenge. 
+      Always on the lookout for new ideas and challenges.
       </p>
       <p className="text-gray-300">
-        When I&apos;m not coding, you&apos;ll find me exploring new technologies, reading about the latest advancements in
-        AI, or engaging in one of my many hobbies outside the digital realm.
+      When i&apos;m not coding, i&apos;m probably watching football, arguing over tactics, or hoping barça doesn&apos;t bottle it (and yeah, i still believe in spurs).
       </p>
     </motion.div>
   );

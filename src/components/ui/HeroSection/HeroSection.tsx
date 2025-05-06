@@ -96,8 +96,8 @@ export default function HeroSection() {
               transition={{ delay: 0.6, duration: 0.8 }}
               className="text-gray-400 text-xl max-w-lg mx-auto lg:mx-0"
             >
-              I build innovative web applications with cutting-edge technologies.
-              Turning complex problems into elegant solutions through code.
+              I build innovative web applications with clean, functional code
+              —occasionally pausing to have existential conversations with my console logs.
             </motion.p>
 
             <motion.div
