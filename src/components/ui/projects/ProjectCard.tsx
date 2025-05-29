@@ -82,6 +82,7 @@ export default function ProjectCard({ project, isActive = false }: ProjectCardPr
               e.stopPropagation();
               if (!isTouched && ("ontouchstart" in window)) {
                 e.preventDefault();
+                e.stopPropagation();
                 setIsTouched(true);
               }
             }}
@@ -98,6 +99,7 @@ export default function ProjectCard({ project, isActive = false }: ProjectCardPr
               e.stopPropagation();
               if (!isTouched && ("ontouchstart" in window)) {
                 e.preventDefault();
+                e.stopPropagation();
                 setIsTouched(true);
               }
             }}
