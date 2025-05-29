@@ -15,10 +15,17 @@ interface ProjectCardProps {
 export default function ProjectCard({ project, isActive = false }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isActivated, setIsActivated] = useState(false);
+  const [isMounted, setIsMounted] = useState(false); 
   const cardRef = useRef<HTMLDivElement>(null);
   
-  // Detect if we're on a touch device
-  const isTouchDevice = typeof window !== 'undefined' && 'ontouchstart' in window;
+  // Default to false for server-side rendering
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  // Move browser detection to useEffect to run only on client-side
+  useEffect(() => {
+    setIsMounted(true); 
+    setIsTouchDevice('ontouchstart' in window);
+  }, []);
 
   // Handle clicks outside to reset activation state
   useEffect(() => {
@@ -41,8 +48,59 @@ export default function ProjectCard({ project, isActive = false }: ProjectCardPr
     }
   };
 
-  // Determine if we should show the visual effects (hover on desktop, tap on mobile)
   const showEffects = isHovered || isActivated;
+
+  const renderLinkButtons = () => {
+    
+    if (!isMounted) {
+      return (
+        <>
+          <div className="text-gray-300 transition-all duration-300 z-20">
+            <Code size={32} />
+          </div>
+          <div className="text-gray-300 transition-all duration-300 z-20">
+            <Eye size={32} />
+          </div>
+        </>
+      );
+    }
+
+    return (
+      <>
+        {!isTouchDevice || isActivated ? (
+          <Link
+            href={project.githubLink}
+            target="_blank"
+            className="text-gray-300 hover:text-slate-100 transition-all duration-300 hover:scale-125 hover:drop-shadow-[0_0_12px_rgba(69,227,255,0.7)] z-20"
+            onClick={(e) => e.stopPropagation()}
+            aria-label="View code"
+          >
+            <Code size={32} />
+          </Link>
+        ) : (
+          <div className="text-gray-300 transition-all duration-300 z-20">
+            <Code size={32} />
+          </div>
+        )}
+
+        {!isTouchDevice || isActivated ? (
+          <Link
+            href={project.liveLink}
+            target="_blank"
+            className="text-gray-300 hover:text-slate-100 transition-all duration-300 hover:scale-125 hover:drop-shadow-[0_0_12px_rgba(69,227,255,0.7)] z-20"
+            onClick={(e) => e.stopPropagation()}
+            aria-label="Preview live"
+          >
+            <Eye size={32} />
+          </Link>
+        ) : (
+          <div className="text-gray-300 transition-all duration-300 z-20">
+            <Eye size={32} />
+          </div>
+        )}
+      </>
+    );
+  };
 
   return (
     <motion.div
@@ -83,39 +141,7 @@ export default function ProjectCard({ project, isActive = false }: ProjectCardPr
           className="absolute inset-0 flex items-center justify-center gap-12 opacity-0 transition-all duration-300"
           animate={{ opacity: showEffects ? 1 : 0 }}
         >
-          {/* The key change: conditionally render Link or a div based on activated state */}
-          {!isTouchDevice || isActivated ? (
-            <Link
-              href={project.githubLink}
-              target="_blank"
-              className="text-gray-300 hover:text-slate-100 transition-all duration-300 hover:scale-125 hover:drop-shadow-[0_0_12px_rgba(69,227,255,0.7)] z-20"
-              onClick={(e) => e.stopPropagation()}
-              aria-label="View code"
-            >
-              <Code size={32} />
-            </Link>
-          ) : (
-            <div className="text-gray-300 transition-all duration-300 z-20">
-              <Code size={32} />
-            </div>
-          )}
-
-          {/* Same approach for the second link */}
-          {!isTouchDevice || isActivated ? (
-            <Link
-              href={project.liveLink}
-              target="_blank"
-              className="text-gray-300 hover:text-slate-100 transition-all duration-300 hover:scale-125 hover:drop-shadow-[0_0_12px_rgba(69,227,255,0.7)] z-20"
-              onClick={(e) => e.stopPropagation()}
-              aria-label="Preview live"
-            >
-              <Eye size={32} />
-            </Link>
-          ) : (
-            <div className="text-gray-300 transition-all duration-300 z-20">
-              <Eye size={32} />
-            </div>
-          )}
+          {renderLinkButtons()}
         </motion.div>
       </div>
     </motion.div>
