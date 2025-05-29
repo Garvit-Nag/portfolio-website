@@ -3,7 +3,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { FileText } from "lucide-react";
 
@@ -15,22 +15,25 @@ export default function HeroSection() {
   const [outputStage, setOutputStage] = useState(0);
   const [codeVisible, setCodeVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  // Refs for terminal positioning in mobile view
+  const terminalRef = useRef(null);
+  const placeholderRef = useRef(null);
 
   useEffect(() => {
     // Check if we're on client-side for device detection
     if (typeof window !== "undefined") {
-      const checkMobile = () => {
+      const checkDeviceSize = () => {
         setIsMobile(window.innerWidth < 768);
+        setIsSmallScreen(window.innerWidth < 1024);
       };
 
-      // Initial check
-      checkMobile();
+      checkDeviceSize();
 
-      // Add event listener for window resize
-      window.addEventListener("resize", checkMobile);
+      window.addEventListener("resize", checkDeviceSize);
 
-      // Clean up event listener
-      return () => window.removeEventListener("resize", checkMobile);
+      return () => window.removeEventListener("resize", checkDeviceSize);
     }
   }, []);
 
@@ -117,7 +120,6 @@ export default function HeroSection() {
                   Resume
                 </a>
               ) : (
-                // For desktop: Open in new tab
                 <a
                   href="/Resume.pdf"
                   target="_blank"
@@ -144,178 +146,425 @@ export default function HeroSection() {
             </motion.div>
           </motion.div>
 
-          {/* Terminal Component */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="flex justify-center lg:justify-end" 
-          >
-            <div className="w-full max-w-xl relative min-h-[320px] lg:min-h-0">
-              {/* Terminal window */}
-              <div className="rounded-lg overflow-hidden bg-[#1a1a2e]/40 backdrop-blur-sm shadow-lg">
-                {/* Terminal header */}
-                <div className="bg-[#0a0a1a]/60 px-4 py-2 flex items-center justify-between">
-                  <div className="flex space-x-2">
-                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                  </div>
-                  <div className="text-xs text-gray-400">terminal@Garvit-Nag</div>
-                </div>
-
-                {/* Terminal body */}
-                <div className="p-6 font-mono text-sm bg-[#1a1a2e]/10">
-                  {/* Command line */}
-                  <div>
-                    {/* Desktop version (single line) - hidden on mobile */}
-                    <div className="hidden sm:flex items-center">
-                      <span className="text-green-400 mr-2">➜</span>
-                      <span className="text-blue-400 mr-2">~/garvit</span>
-                      <span className="text-gray-400">$</span>
-                      <span className="ml-2 text-gray-200">
-                        {commandDisplay}
-                        <span
-                          className={cn("ml-0.5 inline-block w-2 h-4 bg-gray-300",
-                            cursorVisible ? "opacity-100" : "opacity-0"
-                          )}
-                        ></span>
-                      </span>
+          {/* Terminal Component - Conditional rendering based on screen size */}
+          {isSmallScreen ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="flex justify-center lg:justify-end"
+            >
+              <div className="w-full max-w-xl relative">
+                {/* Placeholder - invisible but reserves exact space */}
+                <div
+                  ref={placeholderRef}
+                  className="invisible"
+                >
+                  <div className="rounded-lg overflow-hidden">
+                    {/* Terminal header placeholder */}
+                    <div className="px-4 py-2 flex items-center justify-between">
+                      <div className="flex space-x-2">
+                        <div className="w-3 h-3 rounded-full"></div>
+                        <div className="w-3 h-3 rounded-full"></div>
+                        <div className="w-3 h-3 rounded-full"></div>
+                      </div>
+                      <div className="text-xs">terminal@Garvit-Nag</div>
                     </div>
 
-                    {/* Mobile version (two lines) */}
-                    <div className="sm:hidden">
+                    {/* Terminal body placeholder */}
+                    <div className="p-6 font-mono text-sm">
+                      {/* Command line placeholder */}
+                      <div>
+                        <div className="hidden sm:flex items-center">
+                          <span className="mr-2">➜</span>
+                          <span className="mr-2">~/garvit</span>
+                          <span>$</span>
+                          <span className="ml-2">{command}</span>
+                        </div>
+                        <div className="sm:hidden">
+                          <div className="flex items-center">
+                            <span className="mr-2">➜</span>
+                            <span className="mr-2">~/garvit</span>
+                            <span>$</span>
+                          </div>
+                          <div className="pl-4 mt-1">
+                            {command}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Output placeholders */}
+                      <div className="mt-2">&gt; Booting up environment...</div>
+                      <div>&gt; Warming up codebase...</div>
+                      <div>&gt; All systems ready. Let&apos;s build.</div>
+
+                      {/* Code display placeholder */}
+                      <div className="mt-4 space-y-1">
+                        <div>class DeveloperProfile:</div>
+                        <div className="pl-4">def __init__(self):</div>
+                        <div className="pl-8">self.name = &quot;Garvit Nag&quot;</div>
+                        <div className="pl-8">self.title = &quot;Engineer passionate about design, detail, and doing things right&quot;</div>
+                        <div className="pl-8">self.currently = &quot;Crafting tools I&apos;d actually use. No fluff. Just clean, purposeful builds that feel good.&quot;</div>
+                        <div># All set. Ready to ship things that are well-crafted.</div>
+                      </div>
+                    </div>
+
+                    {/* Terminal footer placeholder */}
+                    <div className="px-4 py-2 flex justify-between items-center">
                       <div className="flex items-center">
-                        <span className="text-green-400 mr-2">➜</span>
-                        <span className="text-blue-400 mr-2">~/garvit</span>
-                        <span className="text-gray-400">$</span>
+                        <span className="w-2 h-2 rounded-full mr-2"></span>
+                        <span className="text-xs">Process running</span>
                       </div>
-                      <div className="pl-4 mt-1 text-gray-200">
-                        {commandDisplay}
-                        <span
-                          className={cn("ml-0.5 inline-block w-2 h-4 bg-gray-300",
-                            cursorVisible ? "opacity-100" : "opacity-0"
-                          )}
-                        ></span>
+                      <div className="text-xs">
+                        • Python 3.10.6
                       </div>
                     </div>
                   </div>
-
-                  {/* Output section */}
-                  {outputStage >= 1 && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.3 }}
-                      className="mt-2 text-blue-300"
-                    >
-                      &gt; Booting up environment...
-                    </motion.div>
-                  )}
-
-                  {outputStage >= 2 && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.3 }}
-                      className="text-blue-200"
-                    >
-                      &gt; Warming up codebase...
-                    </motion.div>
-                  )}
-
-                  {outputStage >= 3 && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.3 }}
-                      className="text-blue-100"
-                    >
-                      &gt; All systems ready. Let&apos;s build.
-                    </motion.div>
-                  )}
-
-                  {/* Code display with inverted colors */}
-                  {codeVisible && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.5 }}
-                      className="mt-4 space-y-1"
-                    >
-                      <motion.div
-                        initial={{ opacity: 0, y: -5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.2, delay: 0.1 }}
-                        className="text-purple-300 flex"
-                      >
-                        class DeveloperProfile:
-                      </motion.div>
-
-                      <motion.div
-                        initial={{ opacity: 0, y: -5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.2, delay: 0.2 }}
-                        className="pl-4 text-cyan-300"
-                      >
-                        def __init__(self):
-                      </motion.div>
-
-                      <motion.div
-                        initial={{ opacity: 0, y: -5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.2, delay: 0.3 }}
-                        className="pl-8"
-                      >
-                        <span className="text-green-300">self.name = </span>
-                        <span className="text-gray-200">&quot;Garvit Nag&quot;</span>
-                      </motion.div>
-
-                      <motion.div
-                        initial={{ opacity: 0, y: -5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.2, delay: 0.4 }}
-                        className="pl-8"
-                      >
-                        <span className="text-green-300">self.title = </span>
-                        <span className="text-gray-200">&quot;Engineer passionate about design, detail, and doing things right&quot;</span>
-                      </motion.div>
-
-                      <motion.div
-                        initial={{ opacity: 0, y: -5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.2, delay: 0.5 }}
-                        className="pl-8"
-                      >
-                        <span className="text-green-300">self.currently = </span>
-                        <span className="text-gray-200">&quot;Crafting tools I&apos;d actually use. No fluff. Just clean, purposeful builds that feel good.&quot;</span>
-                      </motion.div>
-
-                      <motion.div
-                        initial={{ opacity: 0, y: -5 }}
-                        animate={{ opacity: 1, y: 5 }}
-                        transition={{ duration: 0.2, delay: 0.6 }}
-                        className="text-gray-400"
-                      >
-                        # All set. Ready to ship things that are well-crafted.
-                      </motion.div>
-                    </motion.div>
-                  )}
                 </div>
 
-                {/* Terminal footer with updated date and time */}
-                <div className="px-4 py-2 bg-[#0a0a1a]/60 flex justify-between items-center">
-                  <div className="flex items-center">
-                    <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                    <span className="text-xs text-green-400">Process running</span>
-                  </div>
-                  <div className="text-xs text-gray-400">
-                    • Python 3.10.6
+                {/* Actual Terminal - positioned absolutely */}
+                <div
+                  ref={terminalRef}
+                  className="absolute top-0 left-0 w-full"
+                >
+                  {/* Terminal window */}
+                  <div className="rounded-lg overflow-hidden bg-[#1a1a2e]/40 backdrop-blur-sm shadow-lg">
+                    {/* Terminal header */}
+                    <div className="bg-[#0a0a1a]/60 px-4 py-2 flex items-center justify-between">
+                      <div className="flex space-x-2">
+                        <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                      </div>
+                      <div className="text-xs text-gray-400">terminal@Garvit-Nag</div>
+                    </div>
+
+                    {/* Terminal body */}
+                    <div className="p-6 font-mono text-sm bg-[#1a1a2e]/10">
+                      {/* Command line */}
+                      <div>
+                        {/* Desktop version (single line) - hidden on mobile */}
+                        <div className="hidden sm:flex items-center">
+                          <span className="text-green-400 mr-2">➜</span>
+                          <span className="text-blue-400 mr-2">~/garvit</span>
+                          <span className="text-gray-400">$</span>
+                          <span className="ml-2 text-gray-200">
+                            {commandDisplay}
+                            <span
+                              className={cn("ml-0.5 inline-block w-2 h-4 bg-gray-300",
+                                cursorVisible ? "opacity-100" : "opacity-0"
+                              )}
+                            ></span>
+                          </span>
+                        </div>
+
+                        {/* Mobile version (two lines) */}
+                        <div className="sm:hidden">
+                          <div className="flex items-center">
+                            <span className="text-green-400 mr-2">➜</span>
+                            <span className="text-blue-400 mr-2">~/garvit</span>
+                            <span className="text-gray-400">$</span>
+                          </div>
+                          <div className="pl-4 mt-1 text-gray-200">
+                            {commandDisplay}
+                            <span
+                              className={cn("ml-0.5 inline-block w-2 h-4 bg-gray-300",
+                                cursorVisible ? "opacity-100" : "opacity-0"
+                              )}
+                            ></span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Output section */}
+                      {outputStage >= 1 && (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ duration: 0.3 }}
+                          className="mt-2 text-blue-300"
+                        >
+                          &gt; Booting up environment...
+                        </motion.div>
+                      )}
+
+                      {outputStage >= 2 && (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ duration: 0.3 }}
+                          className="text-blue-200"
+                        >
+                          &gt; Warming up codebase...
+                        </motion.div>
+                      )}
+
+                      {outputStage >= 3 && (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ duration: 0.3 }}
+                          className="text-blue-100"
+                        >
+                          &gt; All systems ready. Let&apos;s build.
+                        </motion.div>
+                      )}
+
+                      {/* Code display with inverted colors */}
+                      {codeVisible && (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ duration: 0.5 }}
+                          className="mt-4 space-y-1"
+                        >
+                          <motion.div
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.2, delay: 0.1 }}
+                            className="text-purple-300 flex"
+                          >
+                            class DeveloperProfile:
+                          </motion.div>
+
+                          <motion.div
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.2, delay: 0.2 }}
+                            className="pl-4 text-cyan-300"
+                          >
+                            def __init__(self):
+                          </motion.div>
+
+                          <motion.div
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.2, delay: 0.3 }}
+                            className="pl-8"
+                          >
+                            <span className="text-green-300">self.name = </span>
+                            <span className="text-gray-200">&quot;Garvit Nag&quot;</span>
+                          </motion.div>
+
+                          <motion.div
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.2, delay: 0.4 }}
+                            className="pl-8"
+                          >
+                            <span className="text-green-300">self.title = </span>
+                            <span className="text-gray-200">&quot;Engineer passionate about design, detail, and doing things right&quot;</span>
+                          </motion.div>
+
+                          <motion.div
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.2, delay: 0.5 }}
+                            className="pl-8"
+                          >
+                            <span className="text-green-300">self.currently = </span>
+                            <span className="text-gray-200">&quot;Crafting tools I&apos;d actually use. No fluff. Just clean, purposeful builds that feel good.&quot;</span>
+                          </motion.div>
+
+                          <motion.div
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 5 }}
+                            transition={{ duration: 0.2, delay: 0.6 }}
+                            className="text-gray-400"
+                          >
+                            # All set. Ready to ship things that are well-crafted.
+                          </motion.div>
+                        </motion.div>
+                      )}
+                    </div>
+
+                    {/* Terminal footer with updated date and time */}
+                    <div className="px-4 py-2 bg-[#0a0a1a]/60 flex justify-between items-center">
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
+                        <span className="text-xs text-green-400">Process running</span>
+                      </div>
+                      <div className="text-xs text-gray-400">
+                        • Python 3.10.6
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="flex justify-center lg:justify-end"
+            >
+              <div className="w-full max-w-xl relative min-h-[320px] lg:min-h-0">
+                {/* Terminal window */}
+                <div className="rounded-lg overflow-hidden bg-[#1a1a2e]/40 backdrop-blur-sm shadow-lg">
+                  {/* Terminal header */}
+                  <div className="bg-[#0a0a1a]/60 px-4 py-2 flex items-center justify-between">
+                    <div className="flex space-x-2">
+                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <div className="text-xs text-gray-400">terminal@Garvit-Nag</div>
+                  </div>
+
+                  {/* Terminal body */}
+                  <div className="p-6 font-mono text-sm bg-[#1a1a2e]/10">
+                    {/* Command line */}
+                    <div>
+                      {/* Desktop version (single line) - hidden on mobile */}
+                      <div className="hidden sm:flex items-center">
+                        <span className="text-green-400 mr-2">➜</span>
+                        <span className="text-blue-400 mr-2">~/garvit</span>
+                        <span className="text-gray-400">$</span>
+                        <span className="ml-2 text-gray-200">
+                          {commandDisplay}
+                          <span
+                            className={cn("ml-0.5 inline-block w-2 h-4 bg-gray-300",
+                              cursorVisible ? "opacity-100" : "opacity-0"
+                            )}
+                          ></span>
+                        </span>
+                      </div>
+
+                      {/* Mobile version (two lines) */}
+                      <div className="sm:hidden">
+                        <div className="flex items-center">
+                          <span className="text-green-400 mr-2">➜</span>
+                          <span className="text-blue-400 mr-2">~/garvit</span>
+                          <span className="text-gray-400">$</span>
+                        </div>
+                        <div className="pl-4 mt-1 text-gray-200">
+                          {commandDisplay}
+                          <span
+                            className={cn("ml-0.5 inline-block w-2 h-4 bg-gray-300",
+                              cursorVisible ? "opacity-100" : "opacity-0"
+                            )}
+                          ></span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Output section */}
+                    {outputStage >= 1 && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.3 }}
+                        className="mt-2 text-blue-300"
+                      >
+                        &gt; Booting up environment...
+                      </motion.div>
+                    )}
+
+                    {outputStage >= 2 && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.3 }}
+                        className="text-blue-200"
+                      >
+                        &gt; Warming up codebase...
+                      </motion.div>
+                    )}
+
+                    {outputStage >= 3 && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.3 }}
+                        className="text-blue-100"
+                      >
+                        &gt; All systems ready. Let&apos;s build.
+                      </motion.div>
+                    )}
+
+                    {/* Code display with inverted colors */}
+                    {codeVisible && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.5 }}
+                        className="mt-4 space-y-1"
+                      >
+                        <motion.div
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.2, delay: 0.1 }}
+                          className="text-purple-300 flex"
+                        >
+                          class DeveloperProfile:
+                        </motion.div>
+
+                        <motion.div
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.2, delay: 0.2 }}
+                          className="pl-4 text-cyan-300"
+                        >
+                          def __init__(self):
+                        </motion.div>
+
+                        <motion.div
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.2, delay: 0.3 }}
+                          className="pl-8"
+                        >
+                          <span className="text-green-300">self.name = </span>
+                          <span className="text-gray-200">&quot;Garvit Nag&quot;</span>
+                        </motion.div>
+
+                        <motion.div
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.2, delay: 0.4 }}
+                          className="pl-8"
+                        >
+                          <span className="text-green-300">self.title = </span>
+                          <span className="text-gray-200">&quot;Engineer passionate about design, detail, and doing things right&quot;</span>
+                        </motion.div>
+
+                        <motion.div
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.2, delay: 0.5 }}
+                          className="pl-8"
+                        >
+                          <span className="text-green-300">self.currently = </span>
+                          <span className="text-gray-200">&quot;Crafting tools I&apos;d actually use. No fluff. Just clean, purposeful builds that feel good.&quot;</span>
+                        </motion.div>
+
+                        <motion.div
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 5 }}
+                          transition={{ duration: 0.2, delay: 0.6 }}
+                          className="text-gray-400"
+                        >
+                          # All set. Ready to ship things that are well-crafted.
+                        </motion.div>
+                      </motion.div>
+                    )}
+                  </div>
+
+                  {/* Terminal footer with updated date and time */}
+                  <div className="px-4 py-2 bg-[#0a0a1a]/60 flex justify-between items-center">
+                    <div className="flex items-center">
+                      <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
+                      <span className="text-xs text-green-400">Process running</span>
+                    </div>
+                    <div className="text-xs text-gray-400">
+                      • Python 3.10.6
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
         </div>
       </div>
     </section>
