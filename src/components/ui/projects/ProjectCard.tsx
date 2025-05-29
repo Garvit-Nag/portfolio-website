@@ -12,6 +12,8 @@ interface ProjectCardProps {
   isActive?: boolean;
 }
 
+let globalActiveCardId: number | null = null;
+
 export default function ProjectCard({ project, isActive = false }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isActivated, setIsActivated] = useState(false);
@@ -44,10 +46,28 @@ export default function ProjectCard({ project, isActive = false }: ProjectCardPr
   // Handle card activation
   const handleCardClick = () => {
     if (isTouchDevice) {
+      if (globalActiveCardId !== project.id) {
+        globalActiveCardId = project.id;
+        // Force a re-render of all cards
+        document.dispatchEvent(new CustomEvent('card-activated', { detail: project.id }));
+      }
       setIsActivated(true);
     }
   };
 
+  useEffect(() => {
+    const handleCardActivated = (e: CustomEvent) => {
+      if (e.detail !== project.id) {
+        setIsActivated(false);
+      }
+    };
+    
+    document.addEventListener('card-activated', handleCardActivated as EventListener);
+    return () => {
+      document.removeEventListener('card-activated', handleCardActivated as EventListener);
+    };
+  }, [project.id]);
+  
   const showEffects = isHovered || isActivated;
 
   const renderLinkButtons = () => {
