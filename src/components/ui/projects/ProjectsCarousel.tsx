@@ -14,6 +14,9 @@ export default function ProjectsCarousel() {
   const dragControls = useDragControls();
   const totalProjects = projects.length;
 
+  // Add state to track if swipe is in progress
+  const [isSwiping, setIsSwiping] = useState(false);
+
   useEffect(() => {
     const handleResize = () => {
       setWidth(window.innerWidth);
@@ -116,14 +119,15 @@ export default function ProjectsCarousel() {
 
   // Handle swipe gestures with velocity detection
   const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    setIsSwiping(false);
+    
     if (isAnimating) return;
     
-    const swipeThreshold = 50; // Minimum distance to trigger swipe
-    const velocityThreshold = 500; // Minimum velocity to trigger swipe
+    const swipeThreshold = 50;
+    const velocityThreshold = 500;
     const velocity = info.velocity.x;
     const offset = info.offset.x;
 
-    // Check if swipe meets velocity or distance threshold
     if (Math.abs(velocity) > velocityThreshold || Math.abs(offset) > swipeThreshold) {
       if (velocity > 0 || offset > 0) {
         prevSlide();
@@ -131,6 +135,11 @@ export default function ProjectsCarousel() {
         nextSlide();
       }
     }
+  };
+
+  // Track swipe start to prevent tap activation during swipe
+  const handleDragStart = () => {
+    setIsSwiping(true);
   };
 
   return (
@@ -144,6 +153,7 @@ export default function ProjectsCarousel() {
         dragElastic={0.1}
         dragMomentum={true}
         dragControls={dragControls}
+        onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         whileTap={{ cursor: "grabbing" }}
       >
@@ -164,7 +174,7 @@ export default function ProjectsCarousel() {
               filter: index === currentIndex ? "blur(0px)" : "blur(0.5px)"
             }}
             transition={smoothTransition}
-            onClick={() => handleCardClick(index)}
+            onClick={() => !isSwiping && handleCardClick(index)}
           >
             <ProjectCard
               project={project}

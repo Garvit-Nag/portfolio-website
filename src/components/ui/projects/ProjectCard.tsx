@@ -5,7 +5,7 @@ import { Project } from "@/data/projects";
 import { motion } from "framer-motion";
 import { Code, Eye } from "lucide-react";
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 interface ProjectCardProps {
   project: Project;
@@ -19,59 +19,70 @@ export default function ProjectCard({ project, isActive = false }: ProjectCardPr
   const [isActivated, setIsActivated] = useState(false);
   const [isMounted, setIsMounted] = useState(false); 
   const cardRef = useRef<HTMLDivElement>(null);
+  const tapTimer = useRef<NodeJS.Timeout | null>(null);
   
-  // Default to false for server-side rendering
   const [isTouchDevice, setIsTouchDevice] = useState(false);
 
-  // Move browser detection to useEffect to run only on client-side
   useEffect(() => {
     setIsMounted(true); 
     setIsTouchDevice('ontouchstart' in window);
   }, []);
 
-  // Handle clicks outside to reset activation state
+  // Clear activation when card loses active status
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
+    if (!isActive && isActivated) {
+      setIsActivated(false);
+    }
+  }, [isActive, isActivated]);
+
+  // Handle clicks/taps outside to reset activation state
+  useEffect(() => {
+    const handlePointerDown = (e: MouseEvent | TouchEvent) => {
       if (cardRef.current && !cardRef.current.contains(e.target as Node)) {
         setIsActivated(false);
       }
     };
     
-    document.addEventListener('click', handleClickOutside);
+    document.addEventListener('mousedown', handlePointerDown);
+    document.addEventListener('touchstart', handlePointerDown);
     return () => {
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('mousedown', handlePointerDown);
+      document.removeEventListener('touchstart', handlePointerDown);
     };
   }, []);
 
-  // Handle card activation
-  const handleCardClick = () => {
-    if (isTouchDevice) {
-       globalActiveCardId = project.id;
-    document.dispatchEvent(new CustomEvent('card-activated', { detail: project.id }));
+  const handleCardActivation = useCallback(() => {
+    if (!isTouchDevice || !isActive) return;
+    
+    if (tapTimer.current) {
+      clearTimeout(tapTimer.current);
     }
-  };
+    
+    tapTimer.current = setTimeout(() => {
+      globalActiveCardId = project.id;
+      document.dispatchEvent(new CustomEvent('card-activated', { detail: project.id }));
+    }, 50); 
+  }, [isTouchDevice, isActive, project.id]);
 
   useEffect(() => {
-  const handleCardActivated = (e: CustomEvent) => {
-    if (e.detail !== project.id) {
-      setIsActivated(false);
-    } else {
-      // Force immediate activation for the newly tapped card
-      setIsActivated(true);
-    }
-  };
-  
-  document.addEventListener('card-activated', handleCardActivated as EventListener);
-  return () => {
-    document.removeEventListener('card-activated', handleCardActivated as EventListener);
-  };
-}, [project.id]);
+    const handleCardActivated = (e: CustomEvent) => {
+      if (e.detail !== project.id) {
+        setIsActivated(false);
+      } else {
+        setIsActivated(true);
+      }
+    };
     
+    document.addEventListener('card-activated', handleCardActivated as EventListener);
+    return () => {
+      document.removeEventListener('card-activated', handleCardActivated as EventListener);
+      if (tapTimer.current) clearTimeout(tapTimer.current);
+    };
+  }, [project.id]);
   
   const showEffects = isHovered || isActivated;
 
   const renderLinkButtons = () => {
-    
     if (!isMounted) {
       return (
         <>
@@ -130,7 +141,8 @@ export default function ProjectCard({ project, isActive = false }: ProjectCardPr
         ${showEffects ? 'backdrop-blur-[8px]' : ''}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={handleCardClick}
+      onClick={isTouchDevice ? undefined : handleCardActivation}
+      onTouchStart={isTouchDevice ? handleCardActivation : undefined}
       style={{
         backgroundColor: 'rgba(15, 15, 30, 0.6)'
       }}
