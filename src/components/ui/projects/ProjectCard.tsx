@@ -46,27 +46,27 @@ export default function ProjectCard({ project, isActive = false }: ProjectCardPr
   // Handle card activation
   const handleCardClick = () => {
     if (isTouchDevice) {
-      if (globalActiveCardId !== project.id) {
-        globalActiveCardId = project.id;
-        // Force a re-render of all cards
-        document.dispatchEvent(new CustomEvent('card-activated', { detail: project.id }));
-      }
-      setIsActivated(true);
+       globalActiveCardId = project.id;
+    document.dispatchEvent(new CustomEvent('card-activated', { detail: project.id }));
     }
   };
 
   useEffect(() => {
-    const handleCardActivated = (e: CustomEvent) => {
-      if (e.detail !== project.id) {
-        setIsActivated(false);
-      }
-    };
+  const handleCardActivated = (e: CustomEvent) => {
+    if (e.detail !== project.id) {
+      setIsActivated(false);
+    } else {
+      // Force immediate activation for the newly tapped card
+      setIsActivated(true);
+    }
+  };
+  
+  document.addEventListener('card-activated', handleCardActivated as EventListener);
+  return () => {
+    document.removeEventListener('card-activated', handleCardActivated as EventListener);
+  };
+}, [project.id]);
     
-    document.addEventListener('card-activated', handleCardActivated as EventListener);
-    return () => {
-      document.removeEventListener('card-activated', handleCardActivated as EventListener);
-    };
-  }, [project.id]);
   
   const showEffects = isHovered || isActivated;
 
