@@ -149,9 +149,9 @@ export default function HeroSection() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="grid grid-rows-[minmax(320px,auto)] lg:h-auto"
+            className="flex justify-center lg:justify-end" 
           >
-            <div className="w-full max-w-xl relative mx-auto lg:ml-auto lg:mr-0">
+            <div className="w-full max-w-xl relative min-h-[320px] lg:min-h-0">
               {/* Terminal window */}
               <div className="rounded-lg overflow-hidden bg-[#1a1a2e]/40 backdrop-blur-sm shadow-lg">
                 {/* Terminal header */}
