@@ -24,21 +24,21 @@ export default function BeyondCode() {
       {/* Interactive draggable playground */}
       <div
         ref={dragContainerRef}
-        className="relative h-64 w-full overflow-hidden rounded-lg bg-[#1a1a2e]/30 border border-gray-800/30"
+        className="relative h-64 w-full overflow-hidden rounded-lg bg-[#1a1a2e]/30 border border-gray-800/30 p-4"
         id="drag-container"
       >
         {interests.map((interest, index) => {
         
           const positions = [
-            { x: 50, y: 50 },  
-            { x: 220, y: 40 },  
-            { x: 400, y: 80 },  
-            { x: 100, y: 150 },
-            { x: 270, y: 130 }, 
-            { x: 450, y: 160 }, 
-            { x: 150, y: 90 },  
-            { x: 350, y: 180 }, 
-          ];
+          { x: "8%", y: "20%" },  
+          { x: "28%", y: "15%" },  
+          { x: "65%", y: "30%" },  
+          { x: "12%", y: "60%" },
+          { x: "35%", y: "50%" }, 
+          { x: "70%", y: "65%" }, 
+          { x: "22%", y: "35%" },  
+          { x: "55%", y: "75%" }, 
+        ];
 
           const pos = index < positions.length
             ? positions[index]
@@ -56,9 +56,11 @@ export default function BeyondCode() {
                 position: 'absolute',
                 left: pos.x,
                 top: pos.y,
-                touchAction: 'none' 
+                touchAction: 'none',
+                maxWidth: '42%',
+                textOverflow: 'ellipsis' 
               }}
-              className="px-4 py-2 bg-[#1a1a2e]/50 backdrop-blur-sm rounded-full border border-gray-800/50 flex items-center cursor-grab active:cursor-grabbing"
+              className="px-3 py-1.5 sm:px-4 sm:py-2 bg-[#1a1a2e]/50 backdrop-blur-sm rounded-full border border-gray-800/50 flex items-center cursor-grab active:cursor-grabbing overflow-hidden whitespace-nowrap text-xs sm:text-sm md:text-base"
             >
               <span className="mr-2">{interest.icon}</span>
               <span className="text-gray-300">{interest.name}</span>
