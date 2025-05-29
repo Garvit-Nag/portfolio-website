@@ -125,7 +125,7 @@ export default function ContactSection() {
             className="flex flex-col space-y-6 md:space-y-8"
           >
             {/* Terminal Component */}
-            <div ref={terminalRef} className="w-full relative mb-4 h-[220px] "> {/* Added ref here */}
+            <div ref={terminalRef} className="w-full relative mb-8 lg:mb-4 h-[240px] lg:h-auto "> {/* Added ref here */}
               {/* Terminal window */}
               <div className="rounded-lg overflow-hidden bg-[#1a1a2e]/20 backdrop-blur-sm border border-gray-800/50 shadow-lg shadow-[#2A0E61]/20">
                 {/* Terminal header */}

@@ -67,7 +67,7 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative z-10 min-h-screen flex items-center px-6 py-12 mt-10 mb-24 lg:mb-40">
+    <section className="relative z-10 min-h-screen flex items-center px-6 py-20 mt-10 mb-24">
       <div className="container mx-auto max-w-7xl min-h-[70vh] lg:min-h-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
