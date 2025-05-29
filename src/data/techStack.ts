@@ -1,7 +1,6 @@
 
 export const techStack = [
     { name: "Python" },
-    { name: "JavaScript" },
     { name: "TypeScript" },
     { name: "SQL" },
     { name: "Next.js" },
@@ -10,11 +9,7 @@ export const techStack = [
     { name: "Flask" },
     { name: "Tailwind CSS" },
     { name: "MongoDB" },
-    { name: "Firebase" },
     { name: "Appwrite" },
     { name: "Pandas" },
-    { name: "NumPy" },
     { name: "Git" },
-    { name: "VS Code" },
-
   ];

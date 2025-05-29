@@ -68,7 +68,7 @@ export default function HeroSection() {
 
   return (
     <section className="relative z-10 min-h-screen flex items-center px-6 py-12 mt-10">
-      <div className="container mx-auto max-w-7xl">
+      <div className="container mx-auto max-w-7xl min-h-[70vh] lg:min-h-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -149,7 +149,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="flex justify-center lg:justify-end"
+            className="flex justify-center lg:justify-end h-[320px] lg:h-auto"
           >
             <div className="w-full max-w-xl relative">
               {/* Terminal window */}
