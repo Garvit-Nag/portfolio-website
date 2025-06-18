@@ -30,7 +30,7 @@ export default function AcademicJourney({ onOpenEducationPopup }: AcademicJourne
         <div>
           <h4 className="text-xl font-medium text-blue-300">Chandigarh College Of Engineering & Technology</h4>
           <p className="text-gray-400">Bachelor of Engineering in Computer Science & Engineering</p>
-          <p className="text-gray-400">CGPA: 7.79</p>
+          <p className="text-gray-400">CGPA: 8.04</p>
           <p className="text-gray-400">Dec. 2021 – June 2025</p>
         </div>
 

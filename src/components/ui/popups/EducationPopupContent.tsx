@@ -7,20 +7,20 @@ export default function EducationPopupContent() {
       degree: "Bachelor of Engineering (B.E Computer Science & Engineering)",
       institution: "Chandigarh College of Engineering & Technology",
       period: "Dec. 2021 - June 2025",
-      score: "7.92 CGPA"
+      score: "8.04 CGPA"
     }
   ];
 
   const previousEducation = [
     {
       degree: "Intermediate/+2",
-      institution: "Ryan International School",
+      institution: "Ryan International School, Chandigarh",
       period: "2018-20",
       score: "92.4%"
     },
     {
       degree: "Matriculation",
-      institution: "Ryan International School",
+      institution: "Ryan International School, Chandigarh",
       period: "2017-18",
       score: "95%"
     }
