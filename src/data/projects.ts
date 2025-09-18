@@ -15,7 +15,7 @@ export interface Project {
       image: "/projects/credify.png",
 
       githubLink: "https://github.com/abhisheksharm-3/credify",
-      liveLink: "http://verifiedbycredify.vercel.app",
+      liveLink: "https://verifiedbycredify.vercel.app",
     },
     {
       id: 2,
