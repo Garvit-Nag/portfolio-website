@@ -148,7 +148,7 @@ export default function GenAIPopupContent() {
         className="pt-4 mt-2"
       >
         <a
-          href="https://credify.fun"
+          href="https://verifiedbycredify.vercel.app"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block px-6 py-3 bg-[#1a1a2e]/70 hover:bg-[#1a1a2e]/90 text-blue-300 font-medium rounded-lg transition-all duration-300 border border-blue-600/30 shadow-md shadow-[#2A0E61]/10 hover:shadow-lg hover:shadow-[#2A0E61]/20"
