@@ -8,8 +8,17 @@ export interface Project {
   }
   
   export const projects: Project[] = [
-    {
+      {
       id: 1,
+      title: "Qodex",
+      description: "AI-powered code-repository chat system",
+      image: "/projects/qodex.png",
+
+      githubLink: "https://github.com/Garvit-Nag/Qodex",
+      liveLink: "https://qodex-gules.vercel.app",
+    },
+    {
+      id: 2,
       title: "Credify",
       description: "AI-driven content verification and anti-forgery platform",
       image: "/projects/credify.png",
@@ -18,7 +27,7 @@ export interface Project {
       liveLink: "https://verifiedbycredify.vercel.app",
     },
     {
-      id: 2,
+      id: 3,
       title: "MediSage",
       description: "Medical symptom analysis platform with in-depth health insights",
       image: "/projects/medisage.png",
@@ -26,7 +35,7 @@ export interface Project {
       liveLink: "https://medi-sage.vercel.app",
     },
     {
-      id: 3,
+      id: 4,
       title: "Revibe",
       description: "A music recommender using clustering to suggest similar songs",
       image: "/projects/revibe.png",
@@ -34,7 +43,7 @@ export interface Project {
       liveLink: "https://revibe-audio.vercel.app",
     },
     {
-      id: 4,
+      id: 5,
       title: "Cosmic Share",
       description: "A file sharing platform with secure, auto-expiring links",
       image: "/projects/cosmic.png",
@@ -42,7 +51,7 @@ export interface Project {
       liveLink: "https://cosmic-share.vercel.app",
     },
     {
-      id: 5,
+      id: 6,
       title: "InkLore",
       description: "AI story generator that turns prompts into fun and unique stories",
       image: "/projects/inklore.png",
@@ -50,7 +59,7 @@ export interface Project {
       liveLink: "https://ink-lore.vercel.app",
     },
     {
-      id: 6,
+      id: 7,
       title: "SumItUp",
       description: "A tool for summarizing text and documents with customizable summary lengths",
       image: "/projects/sumitup.png",
@@ -58,7 +67,7 @@ export interface Project {
       liveLink: "https://huggingface.co/spaces/garvitcpp/Sum-it-up",
     },
     {
-      id: 7,
+      id: 8,
       title: "PMSSS Portal",
       description: "Platform simplifying PMSSS applications and uploads",
       image: "/projects/pmsss.png",
@@ -66,7 +75,7 @@ export interface Project {
       liveLink: "https://pramanik.vercel.app",
     },
     {
-      id: 8,
+      id: 9,
       title: "Recipe Rover",
       description: "A platform to discover recipes based on your ingredients",
       image: "/projects/recipe.png",
