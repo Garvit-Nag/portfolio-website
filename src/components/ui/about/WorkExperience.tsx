@@ -15,7 +15,7 @@ export default function WorkExperience() {
         <h3 className="text-xl font-semibold text-gray-200">Work Experience</h3>
       </div>
 
-      <p className="text-purple-300 font-medium mb-2">Freelance Developer • 2025</p>
+      <p className="text-purple-300 font-medium mb-2">SDE Intern • 2025</p>
       <p className="text-gray-300 mb-2">
         Stardom Web Application Development
       </p>
