@@ -52,6 +52,14 @@ export interface Project {
     },
     {
       id: 6,
+      title: "Taskflow",
+      description: "A streamlined productivity tool for managing daily tasks",
+      image: "/projects/taskflow.png",
+      githubLink: "https://github.com/Garvit-Nag/Taskflow",
+      liveLink: "https://taskflow-delta-three.vercel.app",    
+    },
+    {
+      id: 7,
       title: "InkLore",
       description: "AI story generator that turns prompts into fun and unique stories",
       image: "/projects/inklore.png",
@@ -59,15 +67,15 @@ export interface Project {
       liveLink: "https://ink-lore.vercel.app",
     },
     {
-      id: 7,
+      id: 8,
       title: "SumItUp",
-      description: "A tool for summarizing text and documents with customizable summary lengths",
+      description: "A tool for summarizing text and documents",
       image: "/projects/sumitup.png",
       githubLink: "https://github.com/Garvit-Nag/SumItUp",
       liveLink: "https://huggingface.co/spaces/garvitcpp/Sum-it-up",
     },
     {
-      id: 8,
+      id: 9,
       title: "PMSSS Portal",
       description: "Platform simplifying PMSSS applications and uploads",
       image: "/projects/pmsss.png",
@@ -75,7 +83,7 @@ export interface Project {
       liveLink: "https://pramanik.vercel.app",
     },
     {
-      id: 9,
+      id: 10,
       title: "Recipe Rover",
       description: "A platform to discover recipes based on your ingredients",
       image: "/projects/recipe.png",
