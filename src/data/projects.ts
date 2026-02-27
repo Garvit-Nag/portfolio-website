@@ -60,6 +60,14 @@ export interface Project {
     },
     {
       id: 7,
+      title: "DevEvent",
+      description: "Modern, curated hub for discovering developer events",
+      image: "/projects/dev-event.png",
+      githubLink: "https://github.com/Garvit-Nag/dev-events",
+      liveLink: "https://dev-events-ebon-theta.vercel.app",
+    },
+      {
+      id: 8,
       title: "InkLore",
       description: "AI story generator that turns prompts into fun and unique stories",
       image: "/projects/inklore.png",
@@ -67,7 +75,7 @@ export interface Project {
       liveLink: "https://ink-lore.vercel.app",
     },
     {
-      id: 8,
+      id: 9,
       title: "SumItUp",
       description: "A tool for summarizing text and documents",
       image: "/projects/sumitup.png",
@@ -75,7 +83,7 @@ export interface Project {
       liveLink: "https://huggingface.co/spaces/garvitcpp/Sum-it-up",
     },
     {
-      id: 9,
+      id: 10,
       title: "PMSSS Portal",
       description: "Platform simplifying PMSSS applications and uploads",
       image: "/projects/pmsss.png",
@@ -83,7 +91,7 @@ export interface Project {
       liveLink: "https://pramanik.vercel.app",
     },
     {
-      id: 10,
+      id: 11,
       title: "Recipe Rover",
       description: "A platform to discover recipes based on your ingredients",
       image: "/projects/recipe.png",
