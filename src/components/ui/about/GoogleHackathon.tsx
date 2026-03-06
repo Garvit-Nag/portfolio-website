@@ -68,7 +68,7 @@ export default function GoogleHackathon({ onOpenGenAIPopup }: GoogleHackathonPro
             attribution and tampering detection system.
           </p>
           <a
-            href="https://www.credify.fun"
+            href="https://verifiedbycredify.vercel.app/"
             target="_blank"
             className="text-blue-400 hover:text-blue-300 transition-colors duration-300 inline-flex items-center group"
           >
