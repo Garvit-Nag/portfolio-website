@@ -15,11 +15,11 @@ export default function WorkExperience() {
         <h3 className="text-xl font-semibold text-gray-200">Work Experience</h3>
       </div>
 
-      {/* <p className="text-purple-300 font-medium mb-2">SDE Intern • 2025</p> */}
-      <p className="text-purple-300 font-medium mb-2">Freelance Developer</p>
+      <p className="text-purple-300 font-medium mb-2">SDE Intern • 2025</p>
+      {/* <p className="text-purple-300 font-medium mb-2">Freelance Developer</p> */}
       <p className="text-gray-300 mb-2">
-        {/* Stardom Web Application Development */}
-        Web Application Development
+        Stardom Web Application Development
+        {/* Web Application Development */}
       </p>
       <p className="text-gray-300 mb-4">
         {/* Built key CMS functionalities for Stardom&apos;s web application, focusing on product management, content creation, and secure user authentication.      </p> */}
